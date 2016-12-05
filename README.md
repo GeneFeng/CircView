@@ -14,16 +14,16 @@ Sample-specific CircRNA Viewer
   2.2 Restart the CircRNA.jar  
   2.3 Download RBP data from http://gb.whu.edu.cn/CircView/testdata/RBP.tar.gz  
   2.4 Download MRE data from http://gb.whu.edu.cn/CircView/testdata/MRE.tar.gz  
-  2.5 Click “RBP”->”Load Data” to upload RBP file.
-  2.6 Click “MRE”->”Load Data” to upload MRE file.
-  2.7 Load Species and circRNAs, just like it do in 1.3 and 1.4 
+  2.5 Click “RBP”->”Load Data” to upload RBP file.  
+  2.6 Click “MRE”->”Load Data” to upload MRE file.  
+  2.7 Load Species and circRNAs, just like it do in 1.3 and 1.4  
 
 
-3.HOW TO INSTALL JAVA VIRTURAL MACHINE
-  3.1 Open “www.java.com”, download Java, and Install it.
+3.HOW TO INSTALL JAVA VIRTURAL MACHINE  
+  3.1 Open “www.java.com”, download Java, and Install it.  
 
 
-4. HOW TO INSTALL MYSQL
-  4.1 Download MySQL Installation file (Windows) from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz
-  4.1 Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe”
-  4.2 Double click “mysql-installer-community-5.7.16.0.msi”. Be sure to create root password “root” in installation.
+4. HOW TO INSTALL MYSQL  
+  4.1 Download MySQL Installation file (Windows) from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
+  4.1 Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe”  
+  4.2 Double click “mysql-installer-community-5.7.16.0.msi”. Be sure to create root password “root” in installation.  
