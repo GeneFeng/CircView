@@ -25,5 +25,5 @@ Sample-specific CircRNA Viewer
 4. HOW TO INSTALL MYSQL FOR WINDOWS  
  4.1 Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
  4.2 Decompress mysql_windows.tar.gz  
- 4.3 Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe”  
- 4.4 Double click “mysql-installer-community-5.7.16.0.msi”. Be sure to create root password “root” during installation.  
+ 4.3 Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
+ 4.4 Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “root” for user root during installation.  
