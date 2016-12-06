@@ -11,11 +11,11 @@ Sample-specific CircRNA Viewer
 2. HOW TO VIEW RBP and MRE ON CIRCRNAS  
  2.1 Install MySQL firstly, see 4 HOW TO INSTALL MYSQL  
  2.2 Restart the CircRNA.jar  
- 2.3 Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz
- 2.4 Decompress rbp_human.tar.gz
- 2.5 Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz
- 2.6 Decompress mre_human.tar.gz
- 2.7 Click “RBP”->”Load Data” to upload RBP file.  
+ 2.3 Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz 
+ 2.4 Decompress rbp_human.tar.gz 
+ 2.5 Click “RBP”->”Load Data” to upload RBP file.  
+ 2.6 Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz 
+ 2.7 Decompress mre_human.tar.gz
  2.8 Click “MRE”->”Load Data” to upload MRE file.  
  2.9 Load Species and circRNAs, just like it do in 1.3 and 1.4 
   
