@@ -24,13 +24,13 @@ Sample-specific CircRNA Viewer
 3. HOW TO INSTALL JAVA VIRTUAL MACHINE  
  3.1 Open “www.java.com”, download Java, and Install it.  
 
-4. HOW TO INSTALL MYSQL 
+4. HOW TO INSTALL MYSQL   
  4.1 For Windows  
  4.1.1 Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
  4.1.2 Decompress mysql_windows.tar.gz  
  4.1.3 Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
- 4.1.4 Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “root” for user root during installation.
- 4.2 For Mac OS
- 4.2.1 Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg
+ 4.1.4 Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “root” for user root during installation.  
+ 4.2 For Mac OS  
+ 4.2.1 Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
  4.2.2 Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Be sure to create password “root” for user root during installation.
  
