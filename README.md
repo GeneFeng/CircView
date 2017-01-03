@@ -3,7 +3,7 @@ Sample-specific CircRNA Viewer
 
 1. HOW TO VIEW CIRCRNAS  
  1.1 Java Virtual Machine should be installed before running this program. See 3 HOW TO   INSTALL JAVA VIRTUAL MACHINE.  
- 1.2 Double click CircRNA.jar to launch the program.  
+ 1.2 Double click CircView.jar to launch the program.  
  1.3 Download species data from https://github.com/GeneFeng/CircView/tree/master/testdata/annotation  
  1.4 Click “Speices”->”Load Data” to upload the annotation file.  
  1.5 Download circRNA data from https://github.com/GeneFeng/CircView/tree/master/testdata/circRNA_finder     
