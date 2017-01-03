@@ -10,7 +10,7 @@ Sample-specific CircRNA Viewer
  1.6 Click “CircRNA”->”Load Data” to upload the circRNA files.  
  1.7 Click the gene name on the left panel to see the image of the circRNA.  
 
-2. HOW TO VIEW RBP and MRE ON CIRCRNAS  
+2. HOW TO VIEW RBP AND MRE ON CIRCRNAS  
  2.1 Install MySQL firstly, see 4 HOW TO INSTALL MYSQL  
  2.2 Restart the CircRNA.jar  
  2.3 Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz  
