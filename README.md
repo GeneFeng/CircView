@@ -7,7 +7,7 @@ Sample-specific CircRNA Viewer
  1.3 Download species data from https://github.com/GeneFeng/CircView/tree/master/testdata/annotation  
  1.4 Click “Speices”->”Load Data” to upload the annotation file.  
  1.5 Download circRNA data from https://github.com/GeneFeng/CircView/tree/master/testdata/circRNA_finder     
- 1.6 Click “CircRNA”->”Load Data” to upload the circRNA files. 
+ 1.6 Click “CircRNA”->”Load Data” to upload the circRNA files.  
  1.7 Click the gene name on the left panel to see the image of the circRNA.  
 
 2. HOW TO VIEW RBP and MRE ON CIRCRNAS  
@@ -18,7 +18,7 @@ Sample-specific CircRNA Viewer
  2.5 Click “RBP”->”Load Data” to upload RBP file.  
  2.6 Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
  2.7 Decompress mre_human.tar.gz  
- 2.8 Click “MRE”->”Load Data” to upload MRE file.  
+ 2.8 Click “MRE”->”Load Data” to upload MRE file.  
  2.9 Load Species and circRNAs, just like it do in 1.3 and 1.4  
   
 3. HOW TO INSTALL JAVA VIRTUAL MACHINE  
