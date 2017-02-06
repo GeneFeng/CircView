@@ -1,8 +1,8 @@
 **1. HOW TO GET CIRCVIEW AND TEST DATA**
-> Download CircView application from http://github.com/GeneFeng/CircView/blob/master/CircView.jar
-> Download Annotation and CircRNAs data from https://github.com/GeneFeng/CircView/tree/master/testdata
-> Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz
-> Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz
+> Download CircView application from http://github.com/GeneFeng/CircView/blob/master/CircView.jar  
+> Download Annotation and CircRNAs data from https://github.com/GeneFeng/CircView/tree/master/testdata  
+> Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz  
+> Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
 
 **2. HOW TO MANAGE SPECIES DATA**
 > **2.1.	Species Name Management**
