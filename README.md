@@ -7,7 +7,7 @@
 **2. HOW TO MANAGE SPECIES DATA**
 > **2.1.	Species Name Management**
 > The CircView integrates 5 species (Human (hg19), Mouse (mm9), Zebrafish (zv9), C.elegans (ce10), Fly (dm6)) by default. The users can also add or delete species by using menu ***“Species”->”Add Species”*** or ***“Species”->”Delete Species”***.
-> ![](image/species-add.png) ![](./image/species-del.png)
+> <img src="image/species-add.png" width="50%" height="50%"><img src="image/species-del.png" width="50%" height="50%">
 > 
 > **2.2.	Species Data Management**
 > The users can load all species data have the compatible format with the test data annotation files. The user can also clear species data for saving memory.
