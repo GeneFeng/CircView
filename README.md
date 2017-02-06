@@ -54,7 +54,7 @@
 > 7.1.7	Click the gene transcript name on the left panel to see the image of the circRNAs.  
 > 7.1.8	Gene transcript can be searched by its name or its location.  
 > 7.1.9	CircRNAs detail information and image can be saved for further use.  
-> <img src="image/image1.png" width="40%">  
+> <img src="image/image1.png">  
 >  
 > **7.2.	Advanced Feature: RBP and MRE sites Visualization on CircRNAs**  
 > 7.2.1	Install MySQL firstly, see 6 HOW TO INSTALL MYSQL  
@@ -67,5 +67,5 @@
 > 7.2.8	Click “MRE”->”Load Data” to upload MRE file.  
 > 7.2.9	Load Species and circRNAs, just like it do in 7.1.4 and 7.1.6  
 > 7.2.10	Check the RBP or MRE to add RBP sites (the red triangles) or MRE sites (the blue lines) to CircRNAs  
-> <img src="image/image2.png" width="40%">
+> <img src="image/image2.png">
 
