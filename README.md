@@ -26,7 +26,7 @@
 > **4.1.	RBP and MRE Data Management**
 > CircRNAs mainly function as sponges for the regulatory elements, such as RNA binding proteins (RBPs) and miRNA respond elements (MREs). CircView provides advanced features to display regulatory elements. This module requires the users to install MySQL locally, see **6 HOW TO INSTALL MYSQL**. Then the users can load and display the RBP data identified by starBase (http://starbase.sysu.edu.cn/), and/or the MRE data identified by TargetScan (http://targetscan.org/) with the compatible format with http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz. Other regulatory elements with the same format are also compatible.
 > Load RBP or MRE file will create table and deposit data into MySQL database, and Clear RBP or MRE will remove data from the database. As the data are persistent, same data should not load more than once.
-> ![enter image description here](image/rpb-load.png)![enter image description here](image/rbp-clear.png)
+> ![enter image description here](image/rbp-load.png)![enter image description here](image/rbp-clear.png)
 
 **5.	HOW TO INSTALL JAVA VIRTUAL MACHINE**
 > Java Virtual Machine should be installed before running this program. Simply access http://www.java.com, download Java, and install it.
