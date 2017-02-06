@@ -34,6 +34,6 @@ Sample-specific CircRNA Viewer
     4.2.1 Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
     4.2.2 Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Be sure to create password “root” for user root during installation.  
 
-For more information, please refer to HOWTO.pdf  
+For more details, please refer to HOWTO.pdf  
 If you have any problem or find any bug, please contact us: gfeng@whu.edu.cn
  
