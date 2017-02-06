@@ -17,7 +17,8 @@
 > **3.1.	CircRNAs Identification Software Management**
 > The CircView integrates 5 CircRNAs identification software ( circRNA_finder, CIRCexplorer, CIRI, find_circ, and Mapsplice) by default. The Users can add or delete software by using menu ***“CircRNA”->”Add Tool”*** or ***“CircRNA”->”Delete Tool”***.
 > ![enter image description here](image/circrna-add.png)![enter image description here](image/circrna-del.png)
-> **3.2.	CircRNAs Data Management**
+> 
+>**3.2.	CircRNAs Data Management**
 > CircView can load CircRNAs data directly from the output of the default 5 CircRNAs Identification softwares. The user can also import circRNAs identified by other tools with the compatible format with output file of circRNA_finder in test data.
 > The user can also clear CircRNAs data for saving memory.
 > ![enter image description here](image/circrna-load.png)![enter image description here](image/circrna-clear.png)
@@ -37,6 +38,7 @@
 > 6.1.2	Decompress mysql_windows.tar.gz
 > 6.1.3	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.
 > 6.1.4	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “root” for user root during installation.
+>
 > **6.2.	 For Mac OS**
 > 6.2.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg 
 > 6.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Be sure to create password “root” for user root during installation.
@@ -53,6 +55,7 @@
 > 7.1.8	Gene transcript can be searched by its name or its location.
 > 7.1.9	CircRNAs detail information and image can be saved for further use.
 > ![enter image description here](image/image1.png)
+>
 > **7.2.	Advanced Feature: RBP and MRE sites Visualization on CircRNAs**
 > 7.2.1	Install MySQL firstly, see 6 HOW TO INSTALL MYSQL
 > 7.2.2	Restart the CircView.jar
