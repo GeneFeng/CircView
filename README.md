@@ -55,15 +55,15 @@
 > 7.1.4	Click “Species”->”Load Data” to upload the “Human_hg19.txt” file.  
 > 7.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz and decompress it.    
 > 7.1.6	Click “CircRNA”->”Load Data” to upload the circRNA files.  
-> <img src="image/circrna-files-add.png">  
+> <img src="image/circrna-files-add.png" width="80%">  
 > 7.1.7	Click the gene transcript name on the left panel to see the image of the circRNAs.  
-> <img src="image/whole-circrna.png" width="60%">  
+> <img src="image/whole-circrna.png" width="80%">  
 > 7.1.8	Gene transcript can be searched by its name or its location.  
 > 7.1.9 Click one "Circle" to see details of one circRNA.  
-> <img src="image/one-circrna.png" width="60%">  
+> <img src="image/one-circrna.png" width="80%">  
 > 7.1.10	CircRNAs detail information and image can be saved for further use.  
 > 7.1.11	Click "Analysis"->"Comparison" to make a comparison between circRNAs by sample or by algorithm.  
-> <img src="image/comparison-table.png" width="60%">  
+> <img src="image/comparison-table.png" width="80%">  
 
 >  
 > **7.2.	Advanced Feature: RBP and MRE sites Visualization on CircRNAs**  
@@ -77,5 +77,5 @@
 > 7.2.8	Click “MRE”->”Load Data” to upload MRE file.  
 > 7.2.9	Load Species and circRNAs, just like it do in 7.1.4 and 7.1.6  
 > 7.2.10	Check the RBP or MRE to add RBP sites (the red triangles) or MRE sites (the blue lines) to CircRNAs  
-> <img src="image/circrna-rbp-mre.png" width="60%">  
+> <img src="image/circrna-rbp-mre.png" width="80%">  
 
