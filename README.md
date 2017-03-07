@@ -1,6 +1,6 @@
 **1. HOW TO GET CIRCVIEW AND TEST DATA**  
 > Download CircView application from http://github.com/GeneFeng/CircView/blob/master/CircView.jar  
-> Download Annotation and CircRNAs data from https://github.com/GeneFeng/CircView/tree/master/testdata  
+> Download Annotation and CircRNAs data from https://github.com/GeneFeng/CircView/blob/master/testdata  
 > Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz  
 > Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
   
@@ -15,13 +15,12 @@
   
 **3. HOW TO MANAGE CIRCRNAS DATA**  
 > **3.1.	CircRNAs Identification Software Management**  
-> The CircView integrates 5 CircRNAs identification software ( circRNA_finder, CIRCexplorer, CIRI, find_circ, and Mapsplice) by default. The Users can add or delete software by using menu ***“CircRNA”->”Add Tool”*** or ***“CircRNA”->”Delete Tool”***.  
+> The CircView integrates 6 CircRNAs identification software ( circRNA_finder, CIRCexplorer, CIRI, find_circ, Mapsplice, and UROBORUB) by default. The Users can add or delete software by using menu ***“CircRNA”->”Add Tool”*** or ***“CircRNA”->”Delete Tool”***.  
 > <img src="image/circrna-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/circrna-del.png" width="40%">  
 >   
 >**3.2.	CircRNAs Data Management**  
-> CircView can load CircRNAs data directly from the output of the default 5 CircRNAs Identification softwares. The user can also import circRNAs identified by other tools with the compatible format with output file of circRNA_finder in test data.  
-> The user can also clear CircRNAs data for saving memory.  
-> <img src="image/circrna-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/circrna-clear.png" width="40%">  
+> CircView can load CircRNAs data directly from the output of the default 6 CircRNAs Identification softwares. The user can also import circRNAs identified by other tools with the compatible format with output file of circRNA_finder in test data.  
+> <img src="image/circrna-load.png" width="40%"> 
   
 **4.	HOW TO MANAGE RBP AND MRE DATA**  
 > **4.1.	RBP and MRE Data Management**  
@@ -47,14 +46,20 @@
 > **7.1.	Basic Feature: CircRNAs Visualization**  
 > 7.1.1	Java Virtual Machine should be installed before running this program. See 5 HOW TO INSTALL JAVA VIRTUAL MACHINE.  
 > 7.1.2	Double click CircView.jar to launch the program.  
-> 7.1.3	Download species data from https://github.com/GeneFeng/CircView/tree/master/testdata/annotation.tar.gz  
-> 7.1.4	Click “Species”->”Load Data” to upload the annotation file.  
-> 7.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/tree/master/testdata/circRNA_finder.tar.gz  
+> 7.1.3	Download species data from https://github.com/GeneFeng/CircView/blob/master/testdata/annotation.tar.gz and decompress it.  
+> 7.1.4	Click “Species”->”Load Data” to upload the “Human_hg19.txt” file.  
+> 7.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz and decompress it.    
 > 7.1.6	Click “CircRNA”->”Load Data” to upload the circRNA files.  
+> <img src="image/circrna-files-add.png">  
 > 7.1.7	Click the gene transcript name on the left panel to see the image of the circRNAs.  
-> 7.1.8	Gene transcript can be searched by its name or its location.  
-> 7.1.9	CircRNAs detail information and image can be saved for further use.  
-> <img src="image/image1.png">  
+> <img src="image/whole-circrna.png">  
+> 7.1.8	Gene transcript can be searched by its name or its location. 
+> 7.1.9 Click one "Circle" to see details of one circRNA.  
+> <img src="image/one-circrna.png">  
+> 7.1.10	CircRNAs detail information and image can be saved for further use.  
+> 7.1.11	Click "Analysis"->"Comparison" to make a comparison between circRNAs by sample or by algorithm.  
+> <img src="image/comparison-table.png">  
+
 >  
 > **7.2.	Advanced Feature: RBP and MRE sites Visualization on CircRNAs**  
 > 7.2.1	Install MySQL firstly, see 6 HOW TO INSTALL MYSQL  
@@ -67,5 +72,5 @@
 > 7.2.8	Click “MRE”->”Load Data” to upload MRE file.  
 > 7.2.9	Load Species and circRNAs, just like it do in 7.1.4 and 7.1.6  
 > 7.2.10	Check the RBP or MRE to add RBP sites (the red triangles) or MRE sites (the blue lines) to CircRNAs  
-> <img src="image/image2.png">
+> <img src="image/circrna-rbp-mre.png">  
 
