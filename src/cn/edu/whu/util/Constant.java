@@ -40,7 +40,7 @@ public class Constant {
 
 	public final static String SEPERATER = "==>";
 	public final static int ASSIGN_TOLERATION = 2;
-
+	public final static int BP_MATCH_TOLERATE = 20;
 	// RBP tables;
 	public final static String RBP_TABLE_STRUCTS = "(chr varchar(10), start int, end int, rbp varchar(512), detail varchar(1024))";
 

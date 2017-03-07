@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import cn.edu.whu.exception.FileReadException;
 import cn.edu.whu.util.Constant;
@@ -28,48 +29,130 @@ public class CircRnaTool implements Serializable {
 		return parseGeneTranscriptFile(file, genes);
 	}
 
-	public static boolean initCircRnaDataFromFiles(String species, String circRnaTool, File[] files,
+	// public static boolean initCircRnaDataFromFiles(String species, String
+	// circRnaTool, File[] files,
+	// TreeMap<String, Gene> genes) throws FileReadException {
+	// return addCircRnaData(species, circRnaTool, files, genes);
+	// }
+
+	public static boolean initCircRnaDataFromFiles(Vector<Vector<String>> fileTableData, Vector<String> filePath,
 			TreeMap<String, Gene> genes) throws FileReadException {
-		return addCircRnaData(species, circRnaTool, files, genes);
+		return addCircRnaData(fileTableData, filePath, genes);
 	}
 
-	private static boolean addCircRnaData(String species, String toolName, File[] files, TreeMap<String, Gene> genes)
-			throws FileReadException {
-		TreeMap<String, CircRna> circRnas = new TreeMap<String, CircRna>();
-		if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCRNAFINDER)
-				|| toolName.equalsIgnoreCase(Constant.TOOL_CIRCEXPLORER)
-				|| toolName.equalsIgnoreCase(Constant.TOOL_FIND_CIRC)
-				|| toolName.equalsIgnoreCase(Constant.TOOL_MAPSPLICE)
-				|| toolName.equalsIgnoreCase(Constant.TOOL_UROBORUS)) {
-			for (File file : files) {
-				if (!parseCircRnaFinderFile(file, circRnas)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
-				}
-			}
-		} else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRI)) {
-			for (File file : files) {
-				if (!parseCiriFile(file, circRnas)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
-				}
-			}
-		} else {
-			for (File file : files) {
-				if (!parseCircRnaFinderFile(file, circRnas)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
-				}
-			}
-		}
-		// Calculate CircRNA's Recurrent Value
-		if (null != MainData.getCircRnaSampleFilesNum().get(species + Constant.SEPERATER + toolName)) {
-			int n = MainData.getCircRnaSampleFilesNum().get(species + Constant.SEPERATER + toolName);
-			MainData.getCircRnaSampleFilesNum().put(species + Constant.SEPERATER + toolName, n + files.length);
-		} else {
-			MainData.getCircRnaSampleFilesNum().put(species + Constant.SEPERATER + toolName, files.length);
-		}
-		assignAll(genes, circRnas);
+	// private static boolean addCircRnaData(String species, String toolName,
+	// File[] files, TreeMap<String, Gene> genes)
+	// throws FileReadException {
+	// TreeMap<String, CircRna> circRnas = new TreeMap<String, CircRna>();
+	// if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCRNAFINDER)
+	// || toolName.equalsIgnoreCase(Constant.TOOL_CIRCEXPLORER)
+	// || toolName.equalsIgnoreCase(Constant.TOOL_FIND_CIRC)
+	// || toolName.equalsIgnoreCase(Constant.TOOL_MAPSPLICE)) {
+	// for (File file : files) {
+	// if (!parseCircRnaFinderFile(file, circRnas)) {
+	// throw new FileReadException("Can not open [" + file.getName() + "] or
+	// FORMAT ERROR!");
+	// }
+	// }
+	// } else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRI)) {
+	// for (File file : files) {
+	// if (!parseCiriFile(file, circRnas)) {
+	// throw new FileReadException("Can not open [" + file.getName() + "] or
+	// FORMAT ERROR!");
+	// }
+	// }
+	// } else if (toolName.equalsIgnoreCase(Constant.TOOL_UROBORUS)) {
+	// for (File file : files) {
+	// if (!parseUroborusFile(file, circRnas)) {
+	// throw new FileReadException("Can not open [" + file.getName() + "] or
+	// FORMAT ERROR!");
+	// }
+	// }
+	// } else {
+	// for (File file : files) {
+	// if (!parseCircRnaFinderFile(file, circRnas)) {
+	// throw new FileReadException("Can not open [" + file.getName() + "] or
+	// FORMAT ERROR!");
+	// }
+	// }
+	// }
+	//
+	// assignAll(genes, circRnas);
+	//
+	// //////////////////// ????? ////////////////
+	// int x;
+	// return true;
+	// }
 
-		//////////////////// ????? ////////////////
-		int x;
+	private static boolean addCircRnaData(Vector<Vector<String>> fileTableData, Vector<String> filePaths,
+			TreeMap<String, Gene> genes) throws FileReadException {
+		TreeMap<String, CircRna> circRnas = new TreeMap<String, CircRna>();
+		TreeMap<String, String> toolsName = new TreeMap<String, String>();
+		TreeMap<String, String> samplesName = new TreeMap<String, String>();
+		TreeMap<String, String> filesName = new TreeMap<String, String>();
+		String species = "";
+		for (int i = 0; i < filePaths.size(); i++) {
+			File file = new File(filePaths.get(i));
+			Vector<String> oneFileInfo = fileTableData.get(i);
+			species = oneFileInfo.get(0);
+			String toolName = oneFileInfo.get(1);
+			String fileName = oneFileInfo.get(2);
+			String sampleName = fileName;
+			// int tmpP = fileName.lastIndexOf(".");
+			// if (tmpP <= 0) {
+			// sampleName = fileName;
+			// } else {
+			// sampleName = fileName.substring(0, tmpP);
+			// }
+			toolsName.put(toolName, toolName);
+			samplesName.put(sampleName, sampleName);
+			filesName.put(fileName, fileName);
+
+			if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCRNAFINDER)
+					|| toolName.equalsIgnoreCase(Constant.TOOL_FIND_CIRC)
+					|| toolName.equalsIgnoreCase(Constant.TOOL_MAPSPLICE)) {
+				if (!parseCircRnaFinderFile(file, circRnas, sampleName, toolName, fileName)) {
+					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+				}
+			} else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRI)) {
+
+				if (!parseCiriFile(file, circRnas, sampleName, toolName, fileName)) {
+					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+				}
+			} else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCEXPLORER)) {
+				if (!parseCircExplorerFile(file, circRnas, sampleName, toolName, fileName)) {
+					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+				}
+			} else if (toolName.equalsIgnoreCase(Constant.TOOL_UROBORUS)) {
+
+				if (!parseUroborusFile(file, circRnas, sampleName, toolName, fileName)) {
+					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+				}
+			} else {
+				if (!parseCircRnaFinderFile(file, circRnas, sampleName, toolName, fileName)) {
+					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+				}
+
+			}
+		}
+		// // Calculate CircRNA's Recurrent Value
+		// Vector<String> tools = new Vector<String>();
+		// Vector<String> samples = new Vector<String>();
+		// Vector<String> files = new Vector<String>();
+		// for (String toolName : toolsName.keySet()) {
+		// tools.add(toolName);
+		// }
+		// for (String sample : samplesName.keySet()) {
+		// samples.add(sample);
+		// }
+		// for (String file : filesName.keySet()) {
+		// files.add(file);
+		// }
+		// MainData.getLoadedToolName().put(species, tools);
+		// MainData.getSampleName().put(species, samples);
+		// MainData.getFileName().put(species, files);
+
+		assignAll(genes, circRnas);
 		return true;
 	}
 
@@ -82,7 +165,7 @@ public class CircRnaTool implements Serializable {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
 				while ((lineTxt = reader.readLine()) != null) {
-					if (lineTxt.startsWith("GeneName")) {
+					if (lineTxt.toLowerCase().contains("gene")) {
 						continue;
 					}
 					String[] parts = lineTxt.split("\t");
@@ -136,7 +219,8 @@ public class CircRnaTool implements Serializable {
 		return ret;
 	}
 
-	private static boolean parseCircRnaFinderFile(File file, TreeMap<String, CircRna> circRnas) {
+	private static boolean parseCircRnaFinderFile(File file, TreeMap<String, CircRna> circRnas, String sampleName,
+			String circTool, String fileName) {
 		boolean ret = true;
 		CircView.log.info("Parsing " + file.getName());
 		BufferedReader reader = null;
@@ -145,25 +229,121 @@ public class CircRnaTool implements Serializable {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
 				while ((lineTxt = reader.readLine()) != null) {
+					if (lineTxt.toLowerCase().contains("strand")) {
+						continue;
+					}
 					String[] parts = lineTxt.split("\t");
 					// parts[0] Chromosome name
 					// parts[1] start position
 					// parts[2] end position
 					// parts[3]
-					// parts[4]
+					// parts[4] junction reads
 					// parts[5] + or - for strand
 					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[0]);
 					circRna.setStartPoint(Long.parseLong(parts[1]));
 					circRna.setEndPoint(Long.parseLong(parts[2]));
+					circRna.setJunctionReads((int) Long.parseLong(parts[4]));
 					circRna.setStrand(parts[5]);
 					if (circRnas.containsKey(circRnaId.toUpperCase())) {
-						circRnas.get(circRnaId.toUpperCase())
-								.setRepeat(circRnas.get(circRnaId.toUpperCase()).getRepeat() + 1);
+						if (null != circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName)) {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName,
+									circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool)) {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool,
+									circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName)) {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName,
+									circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName, 1);
+						}
+						// Save the Max Junction reads
+						if (circRna.getJunctionReads() > circRnas.get(circRnaId.toUpperCase()).getJunctionReads()) {
+							circRnas.get(circRnaId.toUpperCase()).setJunctionReads(circRna.getJunctionReads());
+						}
 					} else {
+						circRna.getSamples().put(sampleName, 1);
+						circRna.getCircTools().put(circTool, 1);
+						circRna.getFiles().put(fileName, 1);
 						circRnas.put(circRnaId.toUpperCase(), circRna);
-						circRnas.get(circRnaId.toUpperCase()).setRepeat(1);
+					}
+				}
+				reader.close();
+			} else {
+				CircView.log.warn("Can't find the file: " + file.getName());
+			}
+		} catch (Exception e) {
+			CircView.log.warn(e.getMessage());
+			ret = false;
+		}
+		return ret;
+	}
+	
+	private static boolean parseCircExplorerFile(File file, TreeMap<String, CircRna> circRnas, String sampleName,
+			String circTool, String fileName) {
+		boolean ret = true;
+		CircView.log.info("Parsing " + file.getName());
+		BufferedReader reader = null;
+		try {
+			if (file.isFile() && file.exists()) {
+				reader = new BufferedReader(new FileReader(file));
+				String lineTxt = null;
+				while ((lineTxt = reader.readLine()) != null) {
+					if (lineTxt.toLowerCase().contains("strand")) {
+						continue;
+					}
+					String[] parts = lineTxt.split("\t");
+					// parts[0] Chromosome name
+					// parts[1] start position
+					// parts[2] end position
+					// parts[3] CircRNA/junction reads
+					// parts[4] 
+					// parts[5] + or - for strand
+					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
+					CircRna circRna = new CircRna(circRnaId);
+					circRna.setChrom(parts[0]);
+					circRna.setStartPoint(Long.parseLong(parts[1]));
+					circRna.setEndPoint(Long.parseLong(parts[2]));
+					String tmp = parts[3];
+					String[] junc = tmp.split("/");
+					circRna.setJunctionReads((int) Long.parseLong(junc[1]));
+					circRna.setStrand(parts[5]);
+					if (circRnas.containsKey(circRnaId.toUpperCase())) {
+						if (null != circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName)) {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName,
+									circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool)) {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool,
+									circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName)) {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName,
+									circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName, 1);
+						}
+						// Save the Max Junction reads
+						if (circRna.getJunctionReads() > circRnas.get(circRnaId.toUpperCase()).getJunctionReads()) {
+							circRnas.get(circRnaId.toUpperCase()).setJunctionReads(circRna.getJunctionReads());
+						}
+					} else {
+						circRna.getSamples().put(sampleName, 1);
+						circRna.getCircTools().put(circTool, 1);
+						circRna.getFiles().put(fileName, 1);
+						circRnas.put(circRnaId.toUpperCase(), circRna);
 					}
 				}
 				reader.close();
@@ -177,7 +357,8 @@ public class CircRnaTool implements Serializable {
 		return ret;
 	}
 
-	private static boolean parseCiriFile(File file, TreeMap<String, CircRna> circRnas) {
+	private static boolean parseCiriFile(File file, TreeMap<String, CircRna> circRnas, String sampleName,
+			String circTool, String fileName) {
 		boolean ret = true;
 		CircView.log.info("Parsing " + file.getName());
 		BufferedReader reader = null;
@@ -186,30 +367,126 @@ public class CircRnaTool implements Serializable {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
 				while ((lineTxt = reader.readLine()) != null) {
+					if (lineTxt.toLowerCase().contains("circ")) {
+						continue;
+					}
 					String[] parts = lineTxt.split("\t");
 					// parts[0] CircRNA ID
 					// parts[1] Chromosome name
 					// parts[2] start position
 					// parts[3] end position
+					// parts[4] junction reads
 					// parts[10] + or - for strand
 					String circRnaId = parts[0];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[1]);
 					circRna.setStartPoint(Long.parseLong(parts[2]));
 					circRna.setEndPoint(Long.parseLong(parts[3]));
+					circRna.setJunctionReads((int) Long.parseLong(parts[4]));
 					circRna.setStrand(parts[10]);
 					if (circRnas.containsKey(circRnaId.toUpperCase())) {
-						circRnas.get(circRnaId.toUpperCase())
-								.setRepeat(circRnas.get(circRnaId.toUpperCase()).getRepeat() + 1);
+						if (null != circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName)) {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName,
+									circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool)) {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool,
+									circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName)) {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName,
+									circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName, 1);
+						}
+						// Save the Max Junction reads
+						if (circRna.getJunctionReads() > circRnas.get(circRnaId.toUpperCase()).getJunctionReads()) {
+							circRnas.get(circRnaId.toUpperCase()).setJunctionReads(circRna.getJunctionReads());
+						}
 					} else {
+						circRna.getSamples().put(sampleName, 1);
+						circRna.getCircTools().put(circTool, 1);
+						circRna.getFiles().put(fileName, 1);
 						circRnas.put(circRnaId.toUpperCase(), circRna);
-						circRnas.get(circRnaId.toUpperCase()).setRepeat(1);
 					}
 				}
 				reader.close();
 			} else {
 				CircView.log.warn("Can't find the file: " + file.getName());
 				ret = false;
+			}
+		} catch (Exception e) {
+			CircView.log.warn(e.getMessage());
+			ret = false;
+		}
+		return ret;
+	}
+
+	private static boolean parseUroborusFile(File file, TreeMap<String, CircRna> circRnas, String sampleName,
+			String circTool, String fileName) {
+		boolean ret = true;
+		CircView.log.info("Parsing " + file.getName());
+		BufferedReader reader = null;
+		try {
+			if (file.isFile() && file.exists()) {
+				reader = new BufferedReader(new FileReader(file));
+				String lineTxt = null;
+				while ((lineTxt = reader.readLine()) != null) {
+					if (lineTxt.toLowerCase().contains("circ")) {
+						continue;
+					}
+					String[] parts = lineTxt.split("\t");
+					// parts[0] Chromosome name
+					// parts[1] start position
+					// parts[2] end position
+					// parts[3] + or - for strand
+					// parts[4]
+					// parts[5]
+					// parts[6] junction reads
+					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
+					CircRna circRna = new CircRna(circRnaId);
+					circRna.setChrom(parts[0]);
+					circRna.setStartPoint(Long.parseLong(parts[1]));
+					circRna.setEndPoint(Long.parseLong(parts[2]));
+					circRna.setStrand(parts[3]);
+					circRna.setJunctionReads((int) Long.parseLong(parts[6]));
+					if (circRnas.containsKey(circRnaId.toUpperCase())) {
+						if (null != circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName)) {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName,
+									circRnas.get(circRnaId.toUpperCase()).getSamples().get(sampleName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getSamples().put(sampleName, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool)) {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool,
+									circRnas.get(circRnaId.toUpperCase()).getCircTools().get(circTool) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getCircTools().put(circTool, 1);
+						}
+						if (null != circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName)) {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName,
+									circRnas.get(circRnaId.toUpperCase()).getFiles().get(fileName) + 1);
+						} else {
+							circRnas.get(circRnaId.toUpperCase()).getFiles().put(fileName, 1);
+						}
+						// Save the Max Junction reads
+						if (circRna.getJunctionReads() > circRnas.get(circRnaId.toUpperCase()).getJunctionReads()) {
+							circRnas.get(circRnaId.toUpperCase()).setJunctionReads(circRna.getJunctionReads());
+						}
+					} else {
+						circRna.getSamples().put(sampleName, 1);
+						circRna.getCircTools().put(circTool, 1);
+						circRna.getFiles().put(fileName, 1);
+						circRnas.put(circRnaId.toUpperCase(), circRna);
+					}
+				}
+				reader.close();
+			} else {
+				CircView.log.warn("Can't find the file: " + file.getName());
 			}
 		} catch (Exception e) {
 			CircView.log.warn(e.getMessage());
@@ -363,12 +640,15 @@ public class CircRnaTool implements Serializable {
 					geneLocationSign++;
 					geneLocation.put(name + " " + trans.getTranscriptName(), 1);
 
-					if (trans.getCircRnas().get(circRna.getCircRnaID()) != null) {
-						trans.getCircRnasNum().put(circRna.getCircRnaID(), circRna.getRepeat());
-					} else {
+					if (trans.getCircRnas().get(circRna.getCircRnaID()) == null) {
 						trans.getCircRnas().put(circRna.getCircRnaID(), circRna);
-						trans.getCircRnasNum().put(circRna.getCircRnaID(), circRna.getRepeat());
 					}
+					int repeat = 0;
+					for (String sampleName : circRna.getSamples().keySet()) {
+						repeat += circRna.getSamples().get(sampleName);
+					}
+					trans.getCircRnasNum().put(circRna.getCircRnaID(), repeat);
+					trans.setTotalJunctionReads(trans.getTotalJunctionReads() + circRna.getJunctionReads());
 				}
 				if (trans.getCdsStart().longValue() < trans.getCdsEnd().longValue()) {
 					mRnaSign++;

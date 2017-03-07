@@ -13,19 +13,27 @@ import java.util.Vector;
 import cn.edu.whu.util.Constant;
 
 public class MainData {
-	private static TreeMap<String, TreeMap<String, Gene>> circRnaToolsData;
+	// private static TreeMap<String, TreeMap<String, Gene>> circRnaToolsData;
 	private static TreeMap<String, TreeMap<String, Gene>> speciesData;
-	private static TreeMap<String, Integer> circRnaSampleFilesNum;
+	// private static TreeMap<String, Integer> circRnaSampleFilesNum;
 	private static Vector<String> speciesNames;
 	private static Vector<String> circRnaToolNames;
+	//private static TreeMap<String, Vector<String>> loadedToolName;
+	//private static TreeMap<String, Vector<String>> sampleName;
+	//private static TreeMap<String, Vector<String>> fileName;
+	private static TreeMap<String, Vector<Vector<String>>> fileToolTable;
 	private static Properties properties;
 
 	public MainData() {
-		circRnaToolsData = new TreeMap<String, TreeMap<String, Gene>>();
+		// circRnaToolsData = new TreeMap<String, TreeMap<String, Gene>>();
 		speciesData = new TreeMap<String, TreeMap<String, Gene>>();
-		circRnaSampleFilesNum = new TreeMap<String, Integer>();
+		// circRnaSampleFilesNum = new TreeMap<String, Integer>();
 		speciesNames = new Vector<String>();
 		circRnaToolNames = new Vector<String>();
+//		loadedToolName = new TreeMap<String, Vector<String>>();
+//		sampleName = new TreeMap<String, Vector<String>>();
+//		fileName = new TreeMap<String, Vector<String>>();
+		fileToolTable = new TreeMap<String, Vector<Vector<String>>>();
 		properties = new Properties();
 		configure();
 	}
@@ -107,13 +115,15 @@ public class MainData {
 		}
 	}
 
-	public static TreeMap<String, TreeMap<String, Gene>> getCircRnaToolsData() {
-		return circRnaToolsData;
-	}
-
-	public static void setCircRnaToolsData(TreeMap<String, TreeMap<String, Gene>> circRnaTools) {
-		MainData.circRnaToolsData = circRnaTools;
-	}
+	// public static TreeMap<String, TreeMap<String, Gene>>
+	// getCircRnaToolsData() {
+	// return circRnaToolsData;
+	// }
+	//
+	// public static void setCircRnaToolsData(TreeMap<String, TreeMap<String,
+	// Gene>> circRnaTools) {
+	// MainData.circRnaToolsData = circRnaTools;
+	// }
 
 	public static TreeMap<String, TreeMap<String, Gene>> getSpeciesData() {
 		return speciesData;
@@ -123,13 +133,14 @@ public class MainData {
 		MainData.speciesData = speciesData;
 	}
 
-	public static TreeMap<String, Integer> getCircRnaSampleFilesNum() {
-		return circRnaSampleFilesNum;
-	}
-
-	public static void setCircRnaSampleFilesNum(TreeMap<String, Integer> circRnaSampleFilesNum) {
-		MainData.circRnaSampleFilesNum = circRnaSampleFilesNum;
-	}
+	// public static TreeMap<String, Integer> getCircRnaSampleFilesNum() {
+	// return circRnaSampleFilesNum;
+	// }
+	//
+	// public static void setCircRnaSampleFilesNum(TreeMap<String, Integer>
+	// circRnaSampleFilesNum) {
+	// MainData.circRnaSampleFilesNum = circRnaSampleFilesNum;
+	// }
 
 	public static Vector<String> getSpeciesNames() {
 		return speciesNames;
@@ -145,6 +156,38 @@ public class MainData {
 
 	public static void setCircRnaToolNames(Vector<String> circRnaToolNames) {
 		MainData.circRnaToolNames = circRnaToolNames;
+	}
+
+//	public static TreeMap<String, Vector<String>> getLoadedToolName() {
+//		return loadedToolName;
+//	}
+//
+//	public static void setLoadedToolName(TreeMap<String, Vector<String>> loadedToolName) {
+//		MainData.loadedToolName = loadedToolName;
+//	}
+//
+//	public static TreeMap<String, Vector<String>> getSampleName() {
+//		return sampleName;
+//	}
+//
+//	public static void setSampleName(TreeMap<String, Vector<String>> sampleName) {
+//		MainData.sampleName = sampleName;
+//	}
+//
+//	public static TreeMap<String, Vector<String>> getFileName() {
+//		return fileName;
+//	}
+//
+//	public static void setFileName(TreeMap<String, Vector<String>> fileName) {
+//		MainData.fileName = fileName;
+//	}
+	
+	public static TreeMap<String, Vector<Vector<String>>> getFileToolTable() {
+		return fileToolTable;
+	}
+
+	public static void setFileToolTable(TreeMap<String, Vector<Vector<String>>> fileToolTable) {
+		MainData.fileToolTable = fileToolTable;
 	}
 
 	public static Properties getProperties() {

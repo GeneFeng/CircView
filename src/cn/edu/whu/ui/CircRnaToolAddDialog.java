@@ -39,9 +39,9 @@ public class CircRnaToolAddDialog extends JDialog {
 
 	private void initUi() {
 		// ComboBox
-		final JComboBox<String> cbTools = new JComboBox<String>();
-		final JLabel lbAdd = new JLabel("<-");
 		final JTextField tfTools = new JTextField();
+		final JLabel lbAdd = new JLabel("->");
+		final JComboBox<String> cbTools = new JComboBox<String>();
 		final JButton btAdd = new JButton("Add");
 
 		cbTools.setPreferredSize(new Dimension(150, 28));
@@ -50,9 +50,9 @@ public class CircRnaToolAddDialog extends JDialog {
 		}
 		tfTools.setPreferredSize(new Dimension(120, 28));
 
-		getContentPane().add(cbTools);
-		getContentPane().add(lbAdd);
 		getContentPane().add(tfTools);
+		getContentPane().add(lbAdd);
+		getContentPane().add(cbTools);
 		getContentPane().add(btAdd);
 
 		// Button

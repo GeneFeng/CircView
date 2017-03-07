@@ -64,6 +64,7 @@ public class GeneTranscript implements Serializable {
 
 	private TreeMap<String, CircRna> circRnas;
 	private TreeMap<String, Integer> circRnasNum;
+	private int totalJunctionReads;
 
 	/**
 	 * Constructor of class GeneTranscript
@@ -76,6 +77,7 @@ public class GeneTranscript implements Serializable {
 		exonEnds = new Vector<Long>();
 		setCircRnas(new TreeMap<String, CircRna>());
 		setCircRnasNum(new TreeMap<String, Integer>());
+		setTotalJunctionReads(0);
 	}
 
 	/**
@@ -289,6 +291,20 @@ public class GeneTranscript implements Serializable {
 	 */
 	public void setCircRnasNum(TreeMap<String, Integer> circRnasNum) {
 		this.circRnasNum = circRnasNum;
+	}
+	
+	/**
+	 * @return the totalJunctionReads
+	 */
+	public int getTotalJunctionReads() {
+		return totalJunctionReads;
+	}
+
+	/**
+	 * @param totalJunctionReads the totalJunctionReads to set
+	 */
+	public void setTotalJunctionReads(int totalJunctionReads) {
+		this.totalJunctionReads = totalJunctionReads;
 	}
 
 	/**

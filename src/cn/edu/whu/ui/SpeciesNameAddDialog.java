@@ -38,9 +38,9 @@ public class SpeciesNameAddDialog extends JDialog {
 
 	private void initUi() {
 		// ComboBox
-		final JComboBox<String> cbSpecies = new JComboBox<String>();
-		final JLabel lbAdd = new JLabel("<-");
 		final JTextField tfSpecies = new JTextField();
+		final JLabel lbAdd = new JLabel("->");
+		final JComboBox<String> cbSpecies = new JComboBox<String>();
 		final JButton btAdd = new JButton("Add");
 
 		cbSpecies.setPreferredSize(new Dimension(150, 28));
@@ -49,9 +49,9 @@ public class SpeciesNameAddDialog extends JDialog {
 		}
 		tfSpecies.setPreferredSize(new Dimension(120, 28));
 
-		getContentPane().add(cbSpecies);
-		getContentPane().add(lbAdd);
 		getContentPane().add(tfSpecies);
+		getContentPane().add(lbAdd);
+		getContentPane().add(cbSpecies);
 		getContentPane().add(btAdd);
 
 		// Button

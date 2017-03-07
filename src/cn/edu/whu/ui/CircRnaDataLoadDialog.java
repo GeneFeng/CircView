@@ -1,5 +1,7 @@
 package cn.edu.whu.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
@@ -7,35 +9,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import cn.edu.whu.CircRnaTool;
-import cn.edu.whu.MainData;
 import cn.edu.whu.CircView;
 import cn.edu.whu.Gene;
 import cn.edu.whu.GeneTranscript;
+import cn.edu.whu.MainData;
 import cn.edu.whu.exception.FileReadException;
-import cn.edu.whu.util.CloneUtils;
 import cn.edu.whu.util.Constant;
 
 public class CircRnaDataLoadDialog extends JDialog {
-
 	private static final long serialVersionUID = 1L;
 
-	private File[] files;
+	private JTable table;
+	private Vector<Vector<String>> tableData;
+	private Vector<String> filePath;
+	// private JComboBox<String> cbCompare;
+	private JComboBox<String> cbSpecies;
+	private JComboBox<String> cbCircRnaTool;
 
 	public CircRnaDataLoadDialog() {
 		super(CircView.frame);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout());
 		initUi();
 		setTitle("Load CircRNA files");
 		setResizable(false);
-		setSize(400, 65);
-		this.setLayout(new FlowLayout());
+		setSize(600, 400);
 		centerScreen();
 	}
 
@@ -48,95 +59,139 @@ public class CircRnaDataLoadDialog extends JDialog {
 	}
 
 	private void initUi() {
-		// ComboBox
-		final JComboBox<String> cbSpecies = new JComboBox<String>();
-		final JComboBox<String> cbCircRnaTool = new JComboBox<String>();
-		JButton btOpen = new JButton("Open");
-
+		// North
+		JPanel jpNorth = new JPanel(new FlowLayout());
+		// cbCompare = new JComboBox<String>();
+		cbSpecies = new JComboBox<String>();
+		cbCircRnaTool = new JComboBox<String>();
+		JButton btAdd = new JButton("Add Files");
+		// cbCompare.setPreferredSize(new Dimension(150, 28));
 		cbSpecies.setPreferredSize(new Dimension(150, 28));
 		cbCircRnaTool.setPreferredSize(new Dimension(150, 28));
-		getContentPane().add(cbSpecies);
-		getContentPane().add(cbCircRnaTool);
-		getContentPane().add(btOpen);
+		// jpNorth.add(cbCompare);
+		jpNorth.add(cbSpecies);
+		jpNorth.add(cbCircRnaTool);
+		jpNorth.add(btAdd);
+		getContentPane().add(jpNorth, BorderLayout.NORTH);
 
+		// cbCompare.addItem("1Sample-nMethods");
+		// cbCompare.addItem("1Method-nSamples");
 		for (String speciesName : MainData.getSpeciesData().keySet()) {
 			cbSpecies.addItem(speciesName);
 		}
-
 		for (String circRnaToolName : MainData.getCircRnaToolNames()) {
 			cbCircRnaTool.addItem(circRnaToolName);
 		}
 
-		// Button
+		// Center
+		final Vector<String> colName = new Vector<String>();
+		colName.addElement("Species");
+		colName.addElement("CircRNA Algorithm");
+		colName.addElement("File Name");
+		tableData = new Vector<Vector<String>>();
+		filePath = new Vector<String>();
+		final DefaultTableModel model = new DefaultTableModel();
+		table = new JTable(model);
+		model.setDataVector(tableData, colName);
+		JScrollPane jsPane = new JScrollPane(table);
+		getContentPane().add(jsPane, BorderLayout.CENTER);
+
+		// South
+		JPanel jpSouth = new JPanel(new FlowLayout());
+		JButton btOpen = new JButton("Open");
+		JButton btClear = new JButton("Clear");
+		jpSouth.add(btOpen);
+		jpSouth.add(btClear);
+		getContentPane().add(jpSouth, BorderLayout.SOUTH);
+
+		btAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (0 == cbSpecies.getItemCount()) {
+					JOptionPane.showMessageDialog(CircView.frame, "Please Load Species DATA first!");
+					return;
+				}
+				String species = cbSpecies.getSelectedItem().toString();
+				if (null != MainData.getFileToolTable().get(species)) {
+					JOptionPane.showMessageDialog(CircView.frame,
+							species + " data is USED, please clear old " + species + " data and load a new one");
+					return;
+				}
+				OpenFileChooser openFile = new OpenFileChooser("Open CircRNA Files");
+				openFile.setMultiSelectionEnabled(true);
+				// if (cbCompare.getSelectedItem().equals("1Sample-nMethods")) {
+				// openFile.setMultiSelectionEnabled(false);
+				// } else {
+				// openFile.setMultiSelectionEnabled(true);
+				// }
+				openFile.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				openFile.setFileHidingEnabled(true);
+				int returnValue = openFile.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					String speciesName = cbSpecies.getSelectedItem().toString();
+					String circRnaToolName = cbCircRnaTool.getSelectedItem().toString();
+					File[] files = null;
+					files = openFile.getSelectedFiles();
+					// if
+					// (cbCompare.getSelectedItem().equals("1Sample-nMethods"))
+					// {
+					// files = new File[1];
+					// files[0] = openFile.getSelectedFile();
+					// } else {
+					// files = openFile.getSelectedFiles();
+					// }
+					for (File file : files) {
+						Vector<String> rowData = new Vector<String>();
+						rowData.addElement(speciesName);
+						rowData.addElement(circRnaToolName);
+						rowData.addElement(file.getName());
+						filePath.addElement(file.getPath());
+						tableData.addElement(rowData);
+						model.setDataVector(tableData, colName);
+
+						// cbCompare.setEnabled(false);
+						cbSpecies.setEnabled(false);
+						// if
+						// (!cbCompare.getSelectedItem().equals("1Sample-nMethods"))
+						// {
+						// cbCircRnaTool.setEnabled(false);
+						// }
+					}
+				}
+			}
+		});
+
+		btClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tableData.removeAllElements();
+				filePath.removeAllElements();
+				model.setDataVector(tableData, colName);
+				// cbCompare.setEnabled(true);
+				cbSpecies.setEnabled(true);
+				cbCircRnaTool.setEnabled(true);
+			}
+		});
+
 		btOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String speciesName = cbSpecies.getSelectedItem().toString();
-				String circRnaToolName = cbCircRnaTool.getSelectedItem().toString();
 				TreeMap<String, Gene> genes = MainData.getSpeciesData().get(speciesName);
-				// The data already exits
-				String name = null;
-				for (String speciesTools : MainData.getCircRnaToolsData().keySet()) {
-					if (speciesTools.startsWith(speciesName)) {
-						name = speciesTools;
-						break;
-					}
-				}
-				if (null != name) {
-					String[] tmp = name.split(Constant.SEPERATER);
-					int dialogButton = JOptionPane.showConfirmDialog(CircView.frame,
-							"Data of " + tmp[1] + " for " + tmp[0] + " WILL BE ERASE!");
-					if (dialogButton == JOptionPane.YES_OPTION) {
-						MainData.getCircRnaToolsData().remove(name);
-						MainData.getCircRnaSampleFilesNum().remove(name);
-						clear(genes);
-						loadData(speciesName, circRnaToolName, genes);
-					}
-				} else {
-					loadData(speciesName, circRnaToolName, genes);
-				}
-
-			}
-		});
-	}
-
-	protected void loadData(String speciesName, String circRnaToolName, TreeMap<String, Gene> genes) {
-		CircRnaDataLoadDialog.this.setVisible(false);
-		OpenFileChooser openFile = new OpenFileChooser("Open CircRNA Files");
-		openFile.setMultiSelectionEnabled(true);
-		openFile.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		openFile.setFileHidingEnabled(true);
-		int returnValue = openFile.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			files = openFile.getSelectedFiles();
-			DataLoadingDialog dataLoadingDialog = new DataLoadingDialog(CircView.frame, "Loading CircRNA Data ...");
-			System.gc();
-			try {
-				// TreeMap<String, Gene> genes =
-				// CloneUtils.clone(MainData.getSpeciesData().get(speciesName));
-				if (CircRnaTool.initCircRnaDataFromFiles(speciesName, circRnaToolName, files, genes)) {
-					MainData.getCircRnaToolsData().put(speciesName + Constant.SEPERATER + circRnaToolName, genes);
+				DataLoadingDialog dataLoadingDialog = new DataLoadingDialog(CircView.frame, "Loading CircRNA Data ...");
+				setVisible(false);
+				try {
+					MainData.getFileToolTable().put(speciesName, tableData);
+					CircRnaTool.initCircRnaDataFromFiles(tableData, filePath, genes);
 					CircView.updateCircRnaToolsCombo();
-					CircView.setSpeciesCombo(speciesName);
-					CircView.setCircRnaToolsCombo(circRnaToolName);
-					CircView.log.info(circRnaToolName + " Data Loaded for " + speciesName);
+					CircView.updateSamplesCombo();
+					CircView.updateCbChrom();
+					CircView.updateGeneTransList();
+				} catch (FileReadException e1) {
+					JOptionPane.showMessageDialog(CircView.frame, "File format error!");
+					CircView.log.warn(e1.getMessage());
+					dataLoadingDialog.setVisible(false);
 				}
 				dataLoadingDialog.setVisible(false);
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(CircView.frame, "Low Memory!");
-				CircView.log.warn(e1.getMessage());
+				CircRnaDataLoadDialog.this.dispose();
 			}
-		}
-		CircRnaDataLoadDialog.this.dispose();
-	}
-
-	protected void clear(TreeMap<String, Gene> genes) {
-		for (String geneName : genes.keySet()) {
-			Gene gene = genes.get(geneName);
-			for (String transName : gene.getGeneTranscripts().keySet()) {
-				GeneTranscript trans = gene.getGeneTranscripts().get(transName);
-				trans.getCircRnas().clear();
-				trans.getCircRnasNum().clear();
-			}
-		}
+		});
 	}
 }

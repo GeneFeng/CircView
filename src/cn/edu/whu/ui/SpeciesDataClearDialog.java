@@ -52,33 +52,25 @@ public class SpeciesDataClearDialog extends JDialog {
 		// Button
 		btClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(0 == cbSpecies.getItemCount()) {
+					return;
+				}
 				String delSpecies = cbSpecies.getSelectedItem().toString();
 				if (null != MainData.getSpeciesData().get(delSpecies)) {
 					// Delete Species Data
 					MainData.getSpeciesData().remove(delSpecies);
-					// Delete CircRnaTools Data
-					Iterator<String> it = MainData.getCircRnaToolsData().keySet().iterator();
-					while (it.hasNext()) {
-						if (it.next().startsWith(delSpecies)) {
-							it.remove();
-						}
-					}
-					// Delete CircRnaFilesNum Data
-					it = MainData.getCircRnaSampleFilesNum().keySet().iterator();
-					while (it.hasNext()) {
-						if (it.next().startsWith(delSpecies)) {
-							it.remove();
-						}
-					}
+					MainData.getFileToolTable().remove(delSpecies);
 					CircView.updateSpeciesCombo();
-					CircView.updateCircRnaToolsCombo();
+					CircView.updateCircRnaToolsCombo();;
+					CircView.updateCbChrom();
+					CircView.updateGeneTransList();
 					CircView.log.info(delSpecies + " Data Deleted");
 				} else {
 					JOptionPane.showMessageDialog(CircView.frame, "There is no data for " + delSpecies);
 				}
 				SpeciesDataClearDialog.this.dispose();
-				System.gc();
 			}
+
 		});
 	}
 }

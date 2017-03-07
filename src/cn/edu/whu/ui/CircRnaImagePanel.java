@@ -32,7 +32,8 @@ public class CircRnaImagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GeneTranscript gtBackup;
 	private GeneTranscript gt;
-	private int samples;
+	private int toolNum;
+	private int sampleNum;
 	private final Vector<Color> colorList;
 	private int IMAGE_PANEL_WIDTH;
 	private int IMAGE_PANEL_HEIGHT;
@@ -43,7 +44,8 @@ public class CircRnaImagePanel extends JPanel {
 	private int IMAGE_MARGIN_RIGHT = 20;
 	private int STRAND_ARROW_LENGTH = 20;
 	private int ANNOTATION_FONT = 12;
-	private int INDICATION_FONT = 12;
+	private int EXON_NUM_FONT = 12;
+	private int CIRCRNA_INFO_FONT = 12;
 	private float MRE_STROKE = 0.5f;
 	private float DEFAULT_STROKE = 0.5f;
 	private float INDICATION_STROKE = 0.5f;
@@ -58,16 +60,25 @@ public class CircRnaImagePanel extends JPanel {
 	private TreeMap<String, TreeMap<String, Vector<String>>> circRnasRbp;
 	private TreeMap<String, TreeMap<String, Vector<String>>> circRnasMre;
 
+	// for MouseLinstener
+	private Vector<Double> circX;
+	private Vector<Double> circY;
+	private double circR;
+
 	public CircRnaImagePanel() {
 		// TODO Auto-generated constructor stub
 		gtBackup = null;
 		gt = null;
 		circRnasRbp = new TreeMap<String, TreeMap<String, Vector<String>>>();
 		circRnasMre = new TreeMap<String, TreeMap<String, Vector<String>>>();
-		samples = 1;
+		toolNum = 1;
+		sampleNum = 1;
 		colorList = new Vector<Color>();
 		initColor();
 		this.setBackground(Color.WHITE);
+		circX = new Vector<Double>();
+		circY = new Vector<Double>();
+		circR = 0;
 	}
 
 	public void createOneImage(int width, int height, Connection c) {
@@ -105,18 +116,27 @@ public class CircRnaImagePanel extends JPanel {
 		return gt;
 	}
 
-	public void setGt(GeneTranscript gt, int samples) {
+	public void setGt(GeneTranscript gt, int sampleNum, int toolNum) {
 		gtBackup = gt;
-		this.samples = samples;
+		this.sampleNum = sampleNum;
+		this.toolNum = toolNum;
 		this.gt = gtBackup.deepClone();
 	}
 
-	public int getSamples() {
-		return samples;
+	public int getToolNum() {
+		return toolNum;
 	}
 
-	public void setSamples(int samples) {
-		this.samples = samples;
+	public void setToolNum(int toolNum) {
+		this.toolNum = toolNum;
+	}
+
+	public int getSampleNum() {
+		return sampleNum;
+	}
+
+	public void setSampleNum(int sampleNum) {
+		this.sampleNum = sampleNum;
 	}
 
 	public void zoomIn() {
@@ -174,7 +194,8 @@ public class CircRnaImagePanel extends JPanel {
 		TRANSCRIPT_EXON_HEIGHT = TRANSCRIPT_INTRON_HEIGHT * 20;
 		INDICATION_STROKE = (float) (TRANSCRIPT_INTRON_HEIGHT / 2 < 0.5f ? 0.5f : TRANSCRIPT_INTRON_HEIGHT / 2.0);
 		ANNOTATION_FONT = (int) Math.round(TRANSCRIPT_EXON_HEIGHT / 1.2);
-		INDICATION_FONT = (int) (ANNOTATION_FONT / 1.5);
+		EXON_NUM_FONT = (int) Math.round(ANNOTATION_FONT / 1.5);
+		CIRCRNA_INFO_FONT = (int) Math.round(ANNOTATION_FONT / 1.8);
 	}
 
 	@Override
@@ -286,7 +307,7 @@ public class CircRnaImagePanel extends JPanel {
 				no = gt.getExonCount() - i;
 			}
 			g2d.setColor(Color.BLACK);
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, INDICATION_FONT));
+			g2d.setFont(new Font("TimesRoman", Font.PLAIN, EXON_NUM_FONT));
 			g2d.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 			if (no % 5 == 0) {
 				g2d.drawString(no + "", (int) (exonXPosition + startPoint),
@@ -317,8 +338,10 @@ public class CircRnaImagePanel extends JPanel {
 		double circRectLength = (circImageHeight < circImageWidth) ? circImageHeight : circImageWidth;
 		double diameter = 8 * circRectLength / 10;
 		double lineStroke = circRectLength / 10;
-		g2d.setFont(new Font(null, Font.PLAIN, (int) (diameter / 15.0)));
-
+		// for mouselistener
+		setCircX(centX);
+		setCircY(centY);
+		setCircR(diameter / 2);
 		// for each CircRNA
 		int circNum = -1;
 		for (String circRnaId : gt.getCircRnas().keySet()) {
@@ -435,7 +458,12 @@ public class CircRnaImagePanel extends JPanel {
 						}
 						g2d.setColor(Color.BLACK);
 						g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-						g2d.drawString(exonNum + "",
+						String[] tmp = exonsInfo.get(exonId).split("-");
+						int exonLen = Integer.parseInt(tmp[1]) - Integer.parseInt(tmp[0]);
+						g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 18.0)));
+						g2d.drawString(
+								exonNum + "(" + exonLen
+										+ ")",
 								(int) (centX.get(circNum) - lineStroke / 4
 										+ diameter / 2
 												* Math.cos(
@@ -493,6 +521,7 @@ public class CircRnaImagePanel extends JPanel {
 						startAngle += angle;
 						startAngle %= 360;
 					}
+
 				} else if (exonArcsDegree.size() > 0) {
 					// Draw with Intron and Exon
 					for (int exonId : exonsId) {
@@ -519,7 +548,12 @@ public class CircRnaImagePanel extends JPanel {
 						}
 						g2d.setColor(Color.BLACK);
 						g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-						g2d.drawString(exonNum + "",
+						String[] tmp = exonsInfo.get(exonId).split("-");
+						int exonLen = Integer.parseInt(tmp[1]) - Integer.parseInt(tmp[0]);
+						g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 18.0)));
+						g2d.drawString(
+								exonNum + "(" + exonLen
+										+ ")",
 								(int) (centX.get(circNum) - lineStroke / 4
 										+ diameter / 2
 												* Math.cos(
@@ -536,9 +570,10 @@ public class CircRnaImagePanel extends JPanel {
 					String intronType = "Intron";
 					g2d.setColor(Color.BLACK);
 					g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+					g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));
 					g2d.drawString(intronType,
 							(int) Math.round(centX.get(circNum)) - g2d.getFontMetrics().stringWidth(intronType) / 2,
-							(int) Math.round(centY.get(circNum)) - 20);
+							(int) (Math.round(centY.get(circNum)) - diameter / 5.0));
 					g2d.setStroke(
 							new BasicStroke(TRANSCRIPT_INTRON_HEIGHT, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 					g2d.drawArc((int) Math.round(circX), (int) Math.round(circY), (int) Math.round(diameter),
@@ -548,9 +583,10 @@ public class CircRnaImagePanel extends JPanel {
 				String intronType = "Intron";
 				g2d.setColor(Color.BLACK);
 				g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));
 				g2d.drawString(intronType,
 						(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(intronType) / 2.0),
-						(int) (Math.round(centY.get(circNum)) - diameter / 10.0));
+						(int) (Math.round(centY.get(circNum)) - diameter / 5.0));
 				g2d.setStroke(new BasicStroke(TRANSCRIPT_INTRON_HEIGHT, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 				g2d.drawArc((int) Math.round(centX.get(circNum) - diameter / 2.0),
 						(int) Math.round(centY.get(circNum) - diameter / 2.0), (int) Math.round(diameter),
@@ -560,10 +596,11 @@ public class CircRnaImagePanel extends JPanel {
 				String intronType = "Intergenic";
 				g2d.setColor(Color.RED);
 				g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));
 				g2d.drawString(intronType,
 						(int) Math.round(centX.get(circNum))
 								- (int) Math.round(g2d.getFontMetrics().stringWidth(intronType) / 2.0),
-						(int) (Math.round(centY.get(circNum)) - diameter / 10.0));
+						(int) (Math.round(centY.get(circNum)) - diameter / 5.0));
 				g2d.setStroke(new BasicStroke(TRANSCRIPT_INTRON_HEIGHT, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 				g2d.drawArc((int) Math.round(centX.get(circNum) - diameter / 2.0),
 						(int) Math.round(centY.get(circNum) - diameter / 2.0), (int) Math.round(diameter),
@@ -574,24 +611,107 @@ public class CircRnaImagePanel extends JPanel {
 			}
 
 			// Draw CircRNA anotation
+			CIRCRNA_INFO_FONT = (int) Math.round(diameter / 15.0);
+			g2d.setFont(new Font("TimesRoman", Font.PLAIN, CIRCRNA_INFO_FONT));
 			g2d.setColor(Color.BLACK);
 			g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 14.0)));
 			g2d.drawString(circRnaId.replace("|", "-"),
 					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(circRnaId) / 2.0),
 					(int) Math.round(centY.get(circNum) + circRectLength / 2.0) + ANNOTATION_FONT);
 
 			// Draw CircRna Recurrent
-			int num = gt.getCircRnasNum().get(circRnaId);
-			String recurrent = "Recurrent:" + Math.round(100.0 * num / samples) + "%";
-			String recNum = num + "|" + samples;
-			g2d.drawString(recurrent,
-					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recurrent) / 2.0),
+			CIRCRNA_INFO_FONT = (int) Math.round(diameter / 16.0);
+			g2d.setFont(new Font("TimesRoman", Font.PLAIN, CIRCRNA_INFO_FONT));
+			TreeMap<String, String> samples = new TreeMap<String, String>();
+			for (String sampleName : circRna.getSamples().keySet()) {
+				int tmpP = sampleName.lastIndexOf(".");
+				samples.put(sampleName.substring(0, tmpP), sampleName);
+			}
+			String recSample = "recurrent sample:" + samples.size() + "/" + sampleNum + "="
+					+ Math.round(100.0 * circRna.getSamples().size() / sampleNum) + "%";
+			String recAlgorithm = "overlap algorithm:" + circRna.getCircTools().size() + "/" + toolNum + "="
+					+ Math.round(100.0 * circRna.getCircTools().size() / toolNum) + "%";
+			String junctionReads = "max abundance:" + circRna.getJunctionReads();
+			g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));
+			g2d.drawString(recSample,
+					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recSample) / 2.0),
+					(int) Math.round(centY.get(circNum) - diameter / 10.0));
+			g2d.drawString(recAlgorithm,
+					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recAlgorithm) / 2.0),
 					(int) Math.round(centY.get(circNum)));
-			g2d.drawString(recNum,
-					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recNum) / 2.0),
+			g2d.drawString(junctionReads,
+					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(junctionReads) / 2.0),
 					(int) Math.round(centY.get(circNum) + diameter / 10.0));
-			// Draw CircRna Exons Length
 
+			// Draw CircRna Strand
+			g2d.setStroke(new BasicStroke((float) lineStroke, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2d.drawArc((int) Math.round(centX.get(circNum) - diameter / 2.0),
+					(int) Math.round(centY.get(circNum) - diameter / 2.0), (int) Math.round(diameter),
+					(int) Math.round(diameter), 90, 1);
+			g2d.setStroke(new BasicStroke(DEFAULT_STROKE, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2d.drawArc((int) Math.round(centX.get(circNum) - diameter / 2.0),
+					(int) Math.round(centY.get(circNum) - diameter / 2.0), (int) Math.round(diameter),
+					(int) Math.round(diameter), 0, 360);
+			double thick = lineStroke / 4;
+			double r = diameter / 2;
+			if (gt.getCircRnas().get(circRnaId).getStrand().equals("+")) {
+				// Counerclockwise
+				Polygon arrow = new Polygon();
+				int xP, yP, xP1, yP1, xP2, yP2;
+				xP = (int) Math.round(centX.get(circNum));
+				yP = (int) (centY.get(circNum) - r);
+				xP1 = (int) Math.round(centX.get(circNum) + (r - thick) * Math.sin(20.0 / 180));
+				yP1 = (int) Math.round(centY.get(circNum) - (r - thick) * Math.cos(20.0 / 180));
+				xP2 = (int) Math.round(centX.get(circNum) + (r + thick) * Math.sin(20.0 / 180));
+				yP2 = (int) Math.round(centY.get(circNum) - (r + thick) * Math.cos(20.0 / 180));
+				arrow.addPoint(xP, yP);
+				arrow.addPoint(xP1, yP1);
+				arrow.addPoint(xP2, yP2);
+				g2d.setColor(Color.BLACK);
+				g2d.fill(arrow);
+
+				arrow = new Polygon();
+				xP = (int) Math.round(centX.get(circNum));
+				yP = (int) (centY.get(circNum) + r);
+				xP1 = (int) Math.round(centX.get(circNum) - (r - thick) * Math.sin(20.0 / 180));
+				yP1 = (int) Math.round(centY.get(circNum) + (r - thick) * Math.cos(20.0 / 180));
+				xP2 = (int) Math.round(centX.get(circNum) - (r + thick) * Math.sin(20.0 / 180));
+				yP2 = (int) Math.round(centY.get(circNum) + (r + thick) * Math.cos(20.0 / 180));
+				arrow.addPoint(xP, yP);
+				arrow.addPoint(xP1, yP1);
+				arrow.addPoint(xP2, yP2);
+				g2d.setColor(Color.BLACK);
+				g2d.fill(arrow);
+			} else {
+				// Clockwise
+				Polygon arrow = new Polygon();
+				int xP, yP, xP1, yP1, xP2, yP2;
+				xP = (int) Math.round(centX.get(circNum));
+				yP = (int) (centY.get(circNum) - r);
+				xP1 = (int) Math.round(centX.get(circNum) - (r - thick) * Math.sin(20.0 / 180));
+				yP1 = (int) Math.round(centY.get(circNum) - (r - thick) * Math.cos(20.0 / 180));
+				xP2 = (int) Math.round(centX.get(circNum) - (r + thick) * Math.sin(20.0 / 180));
+				yP2 = (int) Math.round(centY.get(circNum) - (r + thick) * Math.cos(20.0 / 180));
+				arrow.addPoint(xP, yP);
+				arrow.addPoint(xP1, yP1);
+				arrow.addPoint(xP2, yP2);
+				g2d.setColor(Color.BLACK);
+				g2d.fill(arrow);
+
+				arrow = new Polygon();
+				xP = (int) Math.round(centX.get(circNum));
+				yP = (int) (centY.get(circNum) + r);
+				xP1 = (int) Math.round(centX.get(circNum) + (r - thick) * Math.sin(20.0 / 180));
+				yP1 = (int) Math.round(centY.get(circNum) + (r - thick) * Math.cos(20.0 / 180));
+				xP2 = (int) Math.round(centX.get(circNum) + (r + thick) * Math.sin(20.0 / 180));
+				yP2 = (int) Math.round(centY.get(circNum) + (r + thick) * Math.cos(20.0 / 180));
+				arrow.addPoint(xP, yP);
+				arrow.addPoint(xP1, yP1);
+				arrow.addPoint(xP2, yP2);
+				g2d.setColor(Color.BLACK);
+				g2d.fill(arrow);
+			}
 		}
 	}
 
@@ -629,6 +749,7 @@ public class CircRnaImagePanel extends JPanel {
 		g2d.drawImage(image, 0, 0, this);
 		try {
 			ImageIO.write(image, type, outFile);
+			JOption
 		} catch (IOException e) {
 			CircView.log.warn(e.getMessage());
 		}
@@ -853,8 +974,8 @@ public class CircRnaImagePanel extends JPanel {
 			// Gene Transcript Info
 			details += "########## Gene Transcript ##########\n";
 			details += gt.getGeneName() + "\t" + gt.getTranscriptName() + "\t" + gt.getChrom() + "\t" + gt.getStrand()
-					+ "\t" + gt.getTxStart() + "\t" + gt.getTxEnd() + "\t" + gt.getCdsStart() + "\t" + gt.getCdsEnd()
-					+ "\t" + gt.getExonCount() + "\t";
+					+ "\t" + gt.getTotalJunctionReads() + "\t" + gt.getTxStart() + "\t" + gt.getTxEnd() + "\t"
+					+ gt.getCdsStart() + "\t" + gt.getCdsEnd() + "\t" + gt.getExonCount() + "\t";
 			for (int i = 0; i < gt.getExonCount(); i++) {
 				details += gt.getExonStarts().get(i) + ",";
 			}
@@ -869,7 +990,16 @@ public class CircRnaImagePanel extends JPanel {
 			for (String circRnaId : gt.getCircRnas().keySet()) {
 				CircRna circRna = gt.getCircRnas().get(circRnaId);
 				details += circRna.getChrom() + "\t" + circRna.getStartPoint() + "\t" + circRna.getEndPoint() + "\t"
-						+ circRna.getCircRnaType() + "\t" + circRna.getRegion() + "\n";
+						+ circRna.getStrand() + "\t" + circRna.getJunctionReads() + "\t" + circRna.getCircRnaType()
+						+ "\t" + circRna.getRegion() + "\t";
+				for (String sampleName : circRna.getSamples().keySet()) {
+					details += sampleName + ',';
+				}
+				details += "\t";
+				for (String circTool : circRna.getCircTools().keySet()) {
+					details += circTool + ',';
+				}
+				details += "\n";
 			}
 			details += "\n";
 
@@ -913,6 +1043,50 @@ public class CircRnaImagePanel extends JPanel {
 					}
 				}
 			}
+		}
+		return details;
+	}
+
+	public String getCircRnaInfo(String circRnaId) {
+		String details = "";
+		CircRna circRna = gt.getCircRnas().get(circRnaId);
+		if (null != circRna) {
+			// CircRNAs Info
+			details += circRna.getChrom() + "\t" + circRna.getStartPoint() + "\t" + circRna.getEndPoint() + "\t"
+					+ circRna.getStrand() + "\t" + circRna.getJunctionReads() + "\n";
+			details += "Exon: ";
+			Vector<Integer> index = new Vector<Integer>();
+			for (int i = 0; i < gt.getExonStarts().size(); i++) {
+				if ((circRna.getStartPoint() <= gt.getExonStarts().get(i))
+						&& (gt.getExonEnds().get(i) <= circRna.getEndPoint())) {
+					index.addElement(i);
+				} else if ((gt.getExonStarts().get(i) <= circRna.getStartPoint())
+						&& (circRna.getStartPoint() <= gt.getExonEnds().get(i))) {
+					index.addElement(i);
+				} else if ((gt.getExonStarts().get(i) <= circRna.getEndPoint())
+						&& (circRna.getEndPoint() <= gt.getExonEnds().get(i))) {
+					index.addElement(i);
+				}
+			}
+			for (int i : index) {
+				details += gt.getExonStarts().get(i) + ",";
+			}
+			details += "\t";
+			for (int i : index) {
+				details += gt.getExonEnds().get(i) + ",";
+			}
+			details += "\n";
+			details += "Type: " + circRna.getCircRnaType() + "\n";
+			details += "Region: " + circRna.getRegion() + "\n";
+			details += "Sample: ";
+			for (String sampleName : circRna.getSamples().keySet()) {
+				details += sampleName + ',';
+			}
+			details += "\nAlgorithm: ";
+			for (String circTool : circRna.getCircTools().keySet()) {
+				details += circTool + ',';
+			}
+			details += "\n";
 		}
 		return details;
 	}
@@ -967,5 +1141,29 @@ public class CircRnaImagePanel extends JPanel {
 
 	public GeneTranscript getGtBackup() {
 		return gtBackup;
+	}
+
+	public Vector<Double> getCircX() {
+		return circX;
+	}
+
+	public void setCircX(Vector<Double> circX) {
+		this.circX = circX;
+	}
+
+	public Vector<Double> getCircY() {
+		return circY;
+	}
+
+	public void setCircY(Vector<Double> circY) {
+		this.circY = circY;
+	}
+
+	public double getCircR() {
+		return circR;
+	}
+
+	public void setCircR(double circR) {
+		this.circR = circR;
 	}
 }
