@@ -41,11 +41,11 @@
 > 6.1.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
 > 6.1.2	Decompress mysql_windows.tar.gz  
 > 6.1.3	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
-> 6.1.4	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “12345” for user root during installation.  
+> 6.1.4	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Be sure to create password “root” for user root during installation.  
 >  
 > **6.2.	 For Mac OS**  
 > 6.2.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
-> 6.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Be sure to create password “12345” for user root during installation.  
+> 6.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Be sure to create password “root” for user root during installation.  
   
 **7.	BEST PRACTISE**  
 > **7.1.	Basic Feature: CircRNAs Visualization**  
