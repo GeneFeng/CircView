@@ -11,7 +11,7 @@
 > 2.1.3	Download species data from https://github.com/GeneFeng/CircView/blob/master/testdata/annotation.tar.gz and decompress it.  
 > 2.1.4	Click “Species”->”Load Data” to upload the “Human_hg19.txt” file.  
 > 2.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz and decompress it.    
-> 2.1.6	Click “CircRNA”->”Load Data” to upload the circRNA files.  
+> 2.1.6	Click “CircRNA”->”Load Data” to upload the circRNA files according species and algorithm.  
 > <img src="image/circrna-files-add.png" width="80%">  
 > 2.1.7	Click the gene transcript name on the left panel to see the image of the circRNAs.  
 > <img src="image/whole-circrna.png" width="80%">  
