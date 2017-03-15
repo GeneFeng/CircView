@@ -13,26 +13,16 @@ import java.util.Vector;
 import cn.edu.whu.util.Constant;
 
 public class MainData {
-	// private static TreeMap<String, TreeMap<String, Gene>> circRnaToolsData;
 	private static TreeMap<String, TreeMap<String, Gene>> speciesData;
-	// private static TreeMap<String, Integer> circRnaSampleFilesNum;
 	private static Vector<String> speciesNames;
 	private static Vector<String> circRnaToolNames;
-	//private static TreeMap<String, Vector<String>> loadedToolName;
-	//private static TreeMap<String, Vector<String>> sampleName;
-	//private static TreeMap<String, Vector<String>> fileName;
 	private static TreeMap<String, Vector<Vector<String>>> fileToolTable;
 	private static Properties properties;
 
 	public MainData() {
-		// circRnaToolsData = new TreeMap<String, TreeMap<String, Gene>>();
 		speciesData = new TreeMap<String, TreeMap<String, Gene>>();
-		// circRnaSampleFilesNum = new TreeMap<String, Integer>();
 		speciesNames = new Vector<String>();
 		circRnaToolNames = new Vector<String>();
-//		loadedToolName = new TreeMap<String, Vector<String>>();
-//		sampleName = new TreeMap<String, Vector<String>>();
-//		fileName = new TreeMap<String, Vector<String>>();
 		fileToolTable = new TreeMap<String, Vector<Vector<String>>>();
 		properties = new Properties();
 		configure();

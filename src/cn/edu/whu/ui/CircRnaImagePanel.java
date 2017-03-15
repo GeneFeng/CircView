@@ -211,6 +211,10 @@ public class CircRnaImagePanel extends JPanel {
 	}
 
 	private void drawCircRnaImage(BufferedImage circRnaImage, GeneTranscript gt) {
+		if(null == gt) {
+			CircView.log.warn("Can NOT Save Image");
+			return;
+		}
 		initConstantValue(circRnaImage);
 
 		Graphics2D g2d = (Graphics2D) circRnaImage.getGraphics();

@@ -301,7 +301,7 @@ public class ComparisonFrame extends JFrame {
 							out.newLine();
 						}
 						out.close();
-						JOptionPane.showMessageDialog(null, "Data was exported successfully!");
+						JOptionPane.showMessageDialog(null, "Export Data Successfully!");
 					} catch (IOException e1) {
 						CircView.log.warn(e1.getMessage());
 					}

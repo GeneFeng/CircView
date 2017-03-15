@@ -27,15 +27,6 @@ public class ImageSaveFileChooser extends JFileChooser {
 				return "png";
 			}
 		});
-		// addChoosableFileFilter(new FileFilter() {
-		// public boolean accept(File f) {
-		// return f.getName().endsWith("jpg");
-		// }
-		//
-		// public String getDescription() {
-		// return "jpg";
-		// }
-		// });
 	}
 
 }

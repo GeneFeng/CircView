@@ -1040,9 +1040,7 @@ public class CircView {
 
 	public static void updateGeneTransList() {
 		geneTransName.removeAllElements();
-		if (genes == null) {
-			return;
-		} else {
+		if (genes != null) {
 			String toolName = (String) cbCircRnaTool.getSelectedItem();
 			String sampleName = (String) cbSample.getSelectedItem();
 			String chrom = (String) cbChrom.getSelectedItem();

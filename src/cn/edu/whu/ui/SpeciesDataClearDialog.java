@@ -61,7 +61,8 @@ public class SpeciesDataClearDialog extends JDialog {
 					MainData.getSpeciesData().remove(delSpecies);
 					MainData.getFileToolTable().remove(delSpecies);
 					CircView.updateSpeciesCombo();
-					CircView.updateCircRnaToolsCombo();;
+					CircView.updateCircRnaToolsCombo();
+					CircView.updateSamplesCombo();
 					CircView.updateCbChrom();
 					CircView.updateGeneTransList();
 					CircView.log.info(delSpecies + " Data Deleted");
