@@ -40,7 +40,7 @@
 **3. HOW TO MANAGE SPECIES DATA**  
 > **3.1.	Species Name Management**  
 > The CircView integrates 5 species (Human (hg19), Mouse (mm9), Zebrafish (zv9), C.elegans (ce10), Fly (dm6)) by default.  
-> The users can also add or delete species by using menu ***“Species”->”Add Species”*** or ***“Species”->”Delete Species”***.  
+> The users can also add or delete species by using menu “Species”->”Add Species” or “Species”->”Delete Species”.  
 > <img src="image/species-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/species-del.png" width="40%">  
 >   
 > **3.2.	Species Data Management**  
@@ -51,7 +51,7 @@
 **4. HOW TO MANAGE CIRCRNAS DATA**  
 > **4.1.	CircRNAs Identification Software Management**  
 > The CircView integrates 6 CircRNAs identification software ( circRNA_finder, CIRCexplorer, CIRI, find_circ, Mapsplice, and UROBORUB) by default.  
-> The Users can add or delete software by using menu ***“CircRNA”->”Add Tool”*** or ***“CircRNA”->”Delete Tool”***.  
+> The Users can add or delete software by using menu “CircRNA”->”Add Tool” or “CircRNA”->”Delete Tool”.  
 > <img src="image/circrna-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/circrna-del.png" width="40%">  
 >   
 >**4.2.	CircRNAs Data Management**  
