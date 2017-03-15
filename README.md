@@ -9,9 +9,9 @@
 > 2.1.1	Java Virtual Machine should be installed before running this program. See 6 HOW TO INSTALL JAVA VIRTUAL MACHINE.  
 > 2.1.2	Double click CircView.jar to launch the program.  
 > 2.1.3	Download species data from https://github.com/GeneFeng/CircView/blob/master/testdata/annotation.tar.gz and decompress it.  
-> 2.1.4	Click “Species”->”Load Data” to upload the “Human_hg19.txt” file.  
+> 2.1.4	Click “Species”->”Load Data” to load the “Human_hg19.txt” file.  
 > 2.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz and decompress it.    
-> 2.1.6	Click “CircRNA”->”Load Data” to upload the circRNA files according species and algorithm.  
+> 2.1.6	Click “CircRNA”->”Load Data” to load the circRNA files according species and algorithm.  
 > <img src="image/circrna-files-add.png" width="80%">  
 > 2.1.7	Click the gene transcript name on the left panel to see the image of the circRNAs.  
 > <img src="image/whole-circrna.png" width="80%">  
@@ -28,10 +28,10 @@
 > 2.2.2	Restart the CircView.jar  
 > 2.2.3	Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz  
 > 2.2.4	Decompress rbp_human.tar.gz  
-> 2.2.5	Click “RBP”->”Load Data” to upload RBP file.  
+> 2.2.5	Click “RBP”->”Load Data” to load RBP file.  
 > 2.2.6	Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
 > 2.2.7	Decompress mre_human.tar.gz  
-> 2.2.8	Click “MRE”->”Load Data” to upload MRE file.  
+> 2.2.8	Click “MRE”->”Load Data” to load MRE file.  
 > 2.2.9	Load Species and circRNAs, just like it do in 2.1.4 and 2.1.6  
 > 2.2.10	Check the RBP or MRE to add RBP sites (the red triangles) or MRE sites (the blue lines) to CircRNAs  
 > <img src="image/circrna-rbp-mre.png" width="80%">  
