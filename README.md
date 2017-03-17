@@ -23,7 +23,7 @@
 > <img src="image/comparison-table.png" width="80%">  
 
 >  
-> **2.2.	Advanced Feature: RBP and MRE sites Visualization on CircRNAs**  
+> **2.2.	Advanced Feature: MRE and RBP sites Visualization on CircRNAs**  
 > 2.2.1	Install MySQL firstly, see 7 HOW TO INSTALL MYSQL  
 > 2.2.2	Restart the CircView.jar  
 > 2.2.3	Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
@@ -33,7 +33,7 @@
 > 2.2.7	Decompress rbp_human.tar.gz  
 > 2.2.8	Click “RBP”->”Load Data” to load RBP file.  
 > 2.2.9	Load Species and circRNAs, just like it do in 2.1.4 and 2.1.6  
-> 2.2.10	Check the RBP or MRE to add RBP sites (the red triangles) or MRE sites (the blue lines) to CircRNAs  
+> 2.2.10	Check the MRE or RBP to add MRE sites (the blue lines) or RBP sites (the red triangles) to CircRNAs  
 > <img src="image/circrna-rbp-mre.png" width="80%">  
   
   
@@ -59,8 +59,7 @@
 > The user can also import circRNAs identified by other tools with the compatible format with six tab delimited columns, including chromosome, start point, end point, running number/name, junction reads and strand.  
 > <img src="image/circrna-load.png" width="40%"> 
   
-**5.	HOW TO MANAGE MRE AND RBP DATA**  
-> **5.1.	MRE and RBP Data Management**  
+**5.	HOW TO MANAGE MRE AND RBP DATA**   
 > CircRNAs mainly function as sponges for the regulatory elements, such as miRNA respond elements (MREs) and RNA binding proteins (RBPs). CircView provides advanced features to display regulatory elements.  
 > This module requires the users to install MySQL locally, see **7 HOW TO INSTALL MYSQL**. Then the users can load and display the MRE data identified by TargetScan (http://targetscan.org/) and/or the RBP data identified by starBase (http://starbase.sysu.edu.cn/) with the compatible format with five tab delimited columns, including chromosome, start site, end site, MRE/RBP name and description. Other regulatory elements with the same format are also compatible.  
 > Load MRE or RBP file will create table and deposit data into MySQL database, and Clear MRE or RBP will remove data from the database. As the data are persistent, same data should not load more than once.  
