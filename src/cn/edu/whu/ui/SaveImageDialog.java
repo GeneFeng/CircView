@@ -26,7 +26,7 @@ public class SaveImageDialog extends JDialog {
 		initUi();
 		setTitle("Save Image as File");
 		setResizable(false);
-		setSize(500, 65);
+		setSize(450, 65);
 		this.setLayout(new FlowLayout());
 		centerScreen();
 	}
@@ -45,18 +45,20 @@ public class SaveImageDialog extends JDialog {
 		final JTextField tfWidth = new JTextField();
 		final JLabel lbHeight = new JLabel("Height");
 		final JTextField tfHeight = new JTextField();
+		final JLabel lbpx = new JLabel("px");
 		JButton btSave = new JButton("Save as");
 
-		tfWidth.setPreferredSize(new Dimension(150, 28));
-		tfHeight.setPreferredSize(new Dimension(150, 28));
+		tfWidth.setPreferredSize(new Dimension(100, 28));
+		tfHeight.setPreferredSize(new Dimension(100, 28));
 		getContentPane().add(lbWidth);
 		getContentPane().add(tfWidth);
 		getContentPane().add(lbHeight);
 		getContentPane().add(tfHeight);
+		getContentPane().add(lbpx);
 		getContentPane().add(btSave);
 
-		tfWidth.setText("1000");
-		tfHeight.setText("500");
+		tfWidth.setText(circRnaImage.getWidth() * 2 + "");
+		tfHeight.setText(circRnaImage.getHeight() * 2 + "");
 
 		// Button
 		btSave.addActionListener(new ActionListener() {
