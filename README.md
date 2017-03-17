@@ -1,6 +1,6 @@
 **1. HOW TO GET CIRCVIEW AND TEST DATA**  
 > Download CircView application from http://github.com/GeneFeng/CircView/blob/master/CircView.jar  
-> Download Annotation and CircRNAs data from https://github.com/GeneFeng/CircView/blob/master/testdata   
+> Download gene annotation and circRNAs data from https://github.com/GeneFeng/CircView/blob/master/testdata   
 > Download MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz  
 > Download RBP data from http://gb.whu.edu.cn/CircView/testdata/rbp_human.tar.gz 
   
@@ -8,7 +8,7 @@
 > **2.1.	Basic Feature: CircRNAs Visualization**  
 > 2.1.1	Java Virtual Machine should be installed before running this program. See 6 HOW TO INSTALL JAVA VIRTUAL MACHINE.  
 > 2.1.2	Double click CircView.jar to launch the program.  
-> 2.1.3	Download species data from https://github.com/GeneFeng/CircView/blob/master/testdata/annotation.tar.gz and decompress it.  
+> 2.1.3	Download species data from https://github.com/GeneFeng/CircView/blob/master/testdata/gene_annotation.tar.gz and decompress it.  
 > 2.1.4	Click “Species”->”Load Data” to load the “Human_hg19.txt” file.  
 > 2.1.5	Download circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz and decompress it.    
 > 2.1.6	Click “CircRNA”->”Load Data” to load the circRNA files according species and algorithm.  
@@ -44,7 +44,7 @@
 > <img src="image/species-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/species-del.png" width="40%">  
 >   
 > **3.2.	Species Data Management**  
-> The users can load all species data have the compatible format with the test data annotation files.  
+> The users can load all species gene annotation data have the compatible format with the test annotation files.  
 > The user can also clear species data for saving memory.  
 > <img src="image/species-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/species-clear.png" width="40%">  
   
