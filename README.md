@@ -34,7 +34,7 @@
 > 2.2.8	Click “RBP”->”Load Data” to load RBP file.  
 > 2.2.9	Load Species and circRNAs, just like it do in 2.1.4 and 2.1.6  
 > 2.2.10	Check the MRE or RBP to add MRE sites (the blue lines) or RBP sites (the red triangles) to CircRNAs  
-> <img src="image/circrna-rbp-mre.png" width="80%">  
+> <img src="image/circrna-mre-rbp.png" width="80%">  
   
   
 **3. HOW TO MANAGE SPECIES DATA**  
@@ -63,7 +63,7 @@
 > CircRNAs mainly function as sponges for the regulatory elements, such as miRNA respond elements (MREs) and RNA binding proteins (RBPs). CircView provides advanced features to display regulatory elements.  
 > This module requires the users to install MySQL locally, see **7 HOW TO INSTALL MYSQL**. Then the users can load and display the MRE data identified by TargetScan (http://targetscan.org/) and/or the RBP data identified by starBase (http://starbase.sysu.edu.cn/) with the compatible format with five tab delimited columns, including chromosome, start site, end site, MRE/RBP name and description. Other regulatory elements with the same format are also compatible.  
 > Load MRE or RBP file will create table and deposit data into MySQL database, and Clear MRE or RBP will remove data from the database. As the data are persistent, same data should not load more than once.  
-> <img src="image/rbp-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/rbp-clear.png" width="40%">  
+> <img src="image/mre-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mre-clear.png" width="40%">  
   
 **6.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
 > Java Virtual Machine should be installed before running this program. Simply access http://www.java.com, download Java, and install it.  
