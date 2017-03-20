@@ -24,7 +24,7 @@
 
 >  
 > **2.2.	Advanced Feature: MRE and RBP sites Visualization on CircRNAs**  
-> 2.2.1	MySQL need to be installed, see 7 HOW TO INSTALL MYSQL  
+> 2.2.1	MySQL Server need to be installed, see 7 HOW TO INSTALL MYSQL SERVER  
 > 2.2.2	Restart CircView.jar  
 > 2.2.3	Download and decompress MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz   
 > 2.2.4	Click “MRE”->”Load Data” to load MRE file.  
@@ -59,20 +59,20 @@
   
 **5.	HOW TO MANAGE MRE AND RBP DATA**   
 > CircRNAs mainly function as sponges for the regulatory elements, such as miRNA respond elements (MREs) and RNA binding proteins (RBPs). CircView provides advanced features to display regulatory elements.  
-> This module requires the users to install MySQL locally, see **7 HOW TO INSTALL MYSQL**. Users can load and display the MRE data identified by TargetScan (http://targetscan.org/) and/or the RBP data identified by starBase (http://starbase.sysu.edu.cn/) or any other software. The format requires five tab delimited columns, including chromosome, start site, end site, MRE/RBP name and description.  
+> This module requires the users to install MySQL Server locally, see **7 HOW TO INSTALL MYSQL SERVER**. Users can load and display the MRE data identified by TargetScan (http://targetscan.org/) and/or the RBP data identified by starBase (http://starbase.sysu.edu.cn/) or any other software. The format requires five tab delimited columns, including chromosome, start site, end site, MRE/RBP name and description.  
 > Load MRE or RBP file will create table and deposit data into MySQL database, and Clear MRE or RBP will remove data from the database. As the data are persistent, users should not load the same data for more than once.  
 > <img src="image/mre-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mre-clear.png" width="40%">  
   
 **6.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
 > Java Virtual Machine need to be installed before running this program. Simply access http://www.java.com, download Java, and install it.  
   
-**7.	HOW TO INSTALL MYSQL**  
+**7.	HOW TO INSTALL MYSQL SERVER**  
 > **7.1.	For Windows**  
 > 7.1.1	Download and decompress MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
-> 7.1.2	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
-> 7.1.3	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Please create password “12345” for user root during installation.  
+> 7.1.2	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework if necessary.  
+> 7.1.3	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL Server. Please create password “12345” for user root during installation.  
 >  
 > **7.2.	 For Mac OS**  
 > 7.2.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
-> 7.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Please create password “12345” for user root during installation.  
+> 7.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL Server. Please create password “12345” for user root during installation.  
   
