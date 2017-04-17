@@ -7,7 +7,8 @@
 **2.	BEST PRACTISE**  
 > **2.1.	Basic Feature: CircRNAs Visualization**  
 > 2.1.1	Java Virtual Machine should be installed before running this program. See 6 HOW TO INSTALL JAVA VIRTUAL MACHINE.  
-> 2.1.2	Download and decompress "CircView.tar.gz" from http://github.com/GeneFeng/CircView/blob/master/CircView.tar.gz Double click CircView.jar to launch the program.  
+> 2.1.2	Download and decompress "CircView.tar.gz" from http://github.com/GeneFeng/CircView/blob/master/CircView.tar.gz  
+> Double click CircView.jar to launch the program.  
 > 2.1.3	Download and decompress circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz.    
 > 2.1.4	Click “CircRNA”->”Load Data” to load circRNA files according species and tool.  
 > <img src="image/circrna-files-add.png" width="80%">  
