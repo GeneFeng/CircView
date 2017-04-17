@@ -14,9 +14,14 @@ import cn.edu.whu.util.Constant;
 import cn.edu.whu.util.DbConfig;
 
 public class MainData {
-	private static TreeMap<String, String> speciesFile;					// SpeciesName - Species Data File Path
-	private static TreeMap<String, TreeMap<String, Gene>> speciesData;	// SpeciesName - Loaded Species Data
-	private static Vector<String> circRnaToolNames;						// Tool Names
+	private static TreeMap<String, String> speciesFile; // SpeciesName - Species
+														// Data File Path
+	private static TreeMap<String, TreeMap<String, Gene>> speciesData; // SpeciesName
+																		// -
+																		// Loaded
+																		// Species
+																		// Data
+	private static Vector<String> circRnaToolNames; // Tool Names
 	private static Vector<Vector<String>> circRnaFilesInfo;
 	private static Properties properties;
 	private static DbConfig dbConfig;
@@ -46,7 +51,12 @@ public class MainData {
 	private void initSpeciesFile() {
 		// Init Default Species Config
 		for (String speciesName : Constant.SPECIES_FILE.keySet()) {
-			speciesFile.put(speciesName, Constant.SPECIES_FILE.get(speciesName));
+			File file = new File(Constant.SPECIES_FILE.get(speciesName));
+			if (file.exists()) {
+				speciesFile.put(speciesName, Constant.SPECIES_FILE.get(speciesName));
+			} else {
+				CircView.log.info("Can not find annotation file " + file.getName());
+			}
 		}
 	}
 
