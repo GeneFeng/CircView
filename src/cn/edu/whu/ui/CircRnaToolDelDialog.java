@@ -53,8 +53,9 @@ public class CircRnaToolDelDialog extends JDialog {
 					int index = cbTools.getSelectedIndex();
 					cbTools.removeItemAt(index);
 					MainData.getCircRnaToolNames().remove(delTool);
-					MainData.writeConfig();
-					CircView.log.info("CircRnaTool [" + delTool + "] Deleted.");
+					MainData.writeDbConfig();
+					CircView.log.info("CircRna Tool [" + delTool + "] Deleted.");
+					CircRnaToolDelDialog.this.dispose();
 				}
 			}
 		});

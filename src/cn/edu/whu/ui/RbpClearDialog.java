@@ -54,7 +54,7 @@ public class RbpClearDialog extends JDialog {
 				}
 			}
 		});
-		for (String speciesName : MainData.getSpeciesNames()) {
+		for (String speciesName : MainData.getSpeciesFile().keySet()) {
 			cbSpecies.addItem(speciesName);
 		}
 		// Button

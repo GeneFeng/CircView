@@ -22,60 +22,55 @@ public class CircRnaTool implements Serializable {
 		return parseGeneTranscriptFile(file, genes);
 	}
 
-	public static boolean initCircRnaDataFromFiles(Vector<Vector<String>> fileTableData, Vector<String> filePath,
+	public static boolean initCircRnaDataFromFiles(Vector<Vector<String>> fileTableData, String speciesName,
 			TreeMap<String, Gene> genes) throws FileReadException {
-		return addCircRnaData(fileTableData, filePath, genes);
+		return addCircRnaData(fileTableData, speciesName, genes);
 	}
 
-	private static boolean addCircRnaData(Vector<Vector<String>> fileTableData, Vector<String> filePaths,
+	private static boolean addCircRnaData(Vector<Vector<String>> fileTableData, String speciesName,
 			TreeMap<String, Gene> genes) throws FileReadException {
 		TreeMap<String, CircRna> circRnas = new TreeMap<String, CircRna>();
-		TreeMap<String, String> toolsName = new TreeMap<String, String>();
-		TreeMap<String, String> samplesName = new TreeMap<String, String>();
-		TreeMap<String, String> filesName = new TreeMap<String, String>();
-		String species = "";
-		for (int i = 0; i < filePaths.size(); i++) {
-			File file = new File(filePaths.get(i));
-			Vector<String> oneFileInfo = fileTableData.get(i);
-			species = oneFileInfo.get(0);
-			String toolName = oneFileInfo.get(1);
-			String fileName = oneFileInfo.get(2);
+		for (Vector<String> rowData : fileTableData) {
+			String species = rowData.get(0);
+			if (!species.equalsIgnoreCase(speciesName)) {
+				continue;
+			}
+			String toolName = rowData.get(1);
+			String fileName = rowData.get(2);
+			String filePath = rowData.get(3);
 			String[] tmp = fileName.split("\\.");
 			String sampleName = tmp[0];
-
-			toolsName.put(toolName, toolName);
-			samplesName.put(sampleName, sampleName);
-			filesName.put(fileName, fileName);
-
+			File file = new File(filePath);
 			if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCRNAFINDER)
 					|| toolName.equalsIgnoreCase(Constant.TOOL_FIND_CIRC)) {
 				if (!parseCircRnaFinderFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 			} else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRI)) {
 				if (!parseCiriFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 			} else if (toolName.equalsIgnoreCase(Constant.TOOL_CIRCEXPLORER)) {
 				if (!parseCircExplorerFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 			} else if (toolName.equalsIgnoreCase(Constant.TOOL_MAPSPLICE)) {
 				if (!parseMapspliceFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 			} else if (toolName.equalsIgnoreCase(Constant.TOOL_UROBORUS)) {
 				if (!parseUroborusFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 			} else {
 				if (!parseCircRnaFinderFile(file, circRnas, sampleName, toolName, fileName)) {
-					throw new FileReadException("Can not open [" + file.getName() + "] or FORMAT ERROR!");
+					throw new FileReadException("Can not open [" + file.getName() + "] or file FORMAT ERROR!");
 				}
 
 			}
 		}
-
+		CircView.log.info("Genes number: " + genes.size());
+		CircView.log.info("CircRNAs number: " + circRnas.size());
 		assignAll(genes, circRnas);
 		return true;
 	}
@@ -88,7 +83,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
+					lineNum++;
 					if (lineTxt.toLowerCase().contains("gene")) {
 						continue;
 					}
@@ -104,6 +101,13 @@ public class CircRnaTool implements Serializable {
 					// parts[8] Number of exons
 					// parts[9] Exon start postions
 					// parts[10] Exon end postions
+					if (parts[3].contains("+") || parts[3].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String geneName = parts[0];
 					GeneTranscript geneTranscript = new GeneTranscript(geneName);
 					geneTranscript.setTranscriptName(parts[1]);
@@ -152,7 +156,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
+					lineNum++;
 					if (lineTxt.toLowerCase().contains("strand")) {
 						continue;
 					}
@@ -163,6 +169,13 @@ public class CircRnaTool implements Serializable {
 					// parts[3]
 					// parts[4] junction reads
 					// parts[5] + or - for strand
+					if (parts[5].contains("+") || parts[5].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[0]);
@@ -220,10 +233,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
-					if (lineTxt.toLowerCase().contains("strand")) {
-						continue;
-					}
+					lineNum++;
 					String[] parts = lineTxt.split("\t");
 					// parts[0] Chromosome name
 					// parts[1] start position
@@ -231,6 +243,13 @@ public class CircRnaTool implements Serializable {
 					// parts[3] CircRNA/junction reads
 					// parts[4]
 					// parts[5] + or - for strand
+					if (parts[5].contains("+") || parts[5].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[0]);
@@ -290,10 +309,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
-					if (lineTxt.toLowerCase().contains("circ")) {
-						continue;
-					}
+					lineNum++;
 					String[] parts = lineTxt.split("\t");
 					// parts[0] CircRNA ID
 					// parts[1] Chromosome name
@@ -301,6 +319,13 @@ public class CircRnaTool implements Serializable {
 					// parts[3] end position
 					// parts[4] junction reads
 					// parts[10] + or - for strand
+					if (parts[10].contains("+") || parts[10].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String circRnaId = parts[0];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[1]);
@@ -359,7 +384,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
+					lineNum++;
 					if (lineTxt.toLowerCase().contains("circ")) {
 						continue;
 					}
@@ -371,6 +398,13 @@ public class CircRnaTool implements Serializable {
 					// parts[4] junction reads
 					// parts[5] + or - for strand
 					// parts[6]
+					if (parts[5].contains("+") || parts[5].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String[] tmp = parts[0].split("~");
 					String chr = tmp[0];
 					String circRnaId = chr + ":" + parts[1] + "|" + parts[2];
@@ -430,7 +464,9 @@ public class CircRnaTool implements Serializable {
 			if (file.isFile() && file.exists()) {
 				reader = new BufferedReader(new FileReader(file));
 				String lineTxt = null;
+				int lineNum = 0;
 				while ((lineTxt = reader.readLine()) != null) {
+					lineNum++;
 					if (lineTxt.toLowerCase().contains("circ")) {
 						continue;
 					}
@@ -442,6 +478,13 @@ public class CircRnaTool implements Serializable {
 					// parts[4]
 					// parts[5]
 					// parts[6] junction reads
+					if (parts[3].contains("+") || parts[3].contains("-")) {
+					} else if (1 == lineNum) {
+						continue;
+					} else {
+						reader.close();
+						return false;
+					}
 					String circRnaId = parts[0] + ":" + parts[1] + "|" + parts[2];
 					CircRna circRna = new CircRna(circRnaId);
 					circRna.setChrom(parts[0]);

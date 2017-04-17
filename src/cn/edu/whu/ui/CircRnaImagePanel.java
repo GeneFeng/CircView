@@ -200,7 +200,6 @@ public class CircRnaImagePanel extends JPanel {
 	 * IMPORTANT: Override this method to make ScollPane valid *
 	 ***********************************************************/
 	public Dimension getPreferredSize() {
-		// TODO Auto-generated method stub
 		int width = 0;
 		int height = 0;
 		if (this != null) {
@@ -211,7 +210,7 @@ public class CircRnaImagePanel extends JPanel {
 	}
 
 	private void drawCircRnaImage(BufferedImage circRnaImage, GeneTranscript gt) {
-		if(null == gt) {
+		if (null == gt) {
 			CircView.log.warn("Can NOT Save Image");
 			return;
 		}
@@ -626,7 +625,7 @@ public class CircRnaImagePanel extends JPanel {
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, CIRCRNA_INFO_FONT));
 			String recSample = "recurrent sample:" + circRna.getSamples().size() + "/" + sampleNum + "="
 					+ Math.round(100.0 * circRna.getSamples().size() / sampleNum) + "%";
-			String recAlgorithm = "overlap algorithm:" + circRna.getCircTools().size() + "/" + toolNum + "="
+			String recAlgorithm = "overlap tool:" + circRna.getCircTools().size() + "/" + toolNum + "="
 					+ Math.round(100.0 * circRna.getCircTools().size() / toolNum) + "%";
 			String junctionReads = "max abundance:" + circRna.getJunctionReads();
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));

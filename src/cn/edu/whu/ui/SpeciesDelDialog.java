@@ -11,13 +11,14 @@ import javax.swing.JDialog;
 import cn.edu.whu.MainData;
 import cn.edu.whu.CircView;
 
-public class SpeciesNameDelDialog extends JDialog {
+public class SpeciesDelDialog extends JDialog {
+
 	private static final long serialVersionUID = 1L;
 
-	public SpeciesNameDelDialog() {
+	public SpeciesDelDialog() {
 		super(CircView.frame);
 		initUi();
-		setTitle("Delete Species Name");
+		setTitle("Delete Species");
 		setResizable(false);
 		setSize(300, 65);
 		this.setLayout(new FlowLayout());
@@ -37,8 +38,8 @@ public class SpeciesNameDelDialog extends JDialog {
 		final JComboBox<String> cbSpecies = new JComboBox<String>();
 		final JButton btDel = new JButton("Delete");
 
-		cbSpecies.setPreferredSize(new Dimension(150, 28));
-		for (String speciesName : MainData.getSpeciesNames()) {
+		cbSpecies.setPreferredSize(new Dimension(160, 28));
+		for (String speciesName : MainData.getSpeciesFile().keySet()) {
 			cbSpecies.addItem(speciesName);
 		}
 
@@ -48,15 +49,18 @@ public class SpeciesNameDelDialog extends JDialog {
 		// Button
 		btDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (null != cbSpecies.getSelectedItem()) {
-					String delSpecies = cbSpecies.getSelectedItem().toString();
-					int index = cbSpecies.getSelectedIndex();
-					cbSpecies.removeItemAt(index);
-					MainData.getSpeciesNames().remove(delSpecies);
-					MainData.writeConfig();
-					CircView.log.info("Species [" + delSpecies + "] Deleted.");
+				if (null == cbSpecies.getSelectedItem()) {
+					return;
 				}
+				String delSpecies = cbSpecies.getSelectedItem().toString();
+				// Delete Species and its File
+				if (null != MainData.getSpeciesFile().get(delSpecies)) {
+					MainData.getSpeciesFile().remove(delSpecies);
+				}
+				CircView.log.error(delSpecies + " is DELETED");
+				SpeciesDelDialog.this.dispose();
 			}
+
 		});
 	}
 }

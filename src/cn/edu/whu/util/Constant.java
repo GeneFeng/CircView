@@ -1,5 +1,7 @@
 package cn.edu.whu.util;
 
+import java.io.File;
+import java.util.TreeMap;
 import java.util.Vector;
 
 public class Constant {
@@ -23,6 +25,8 @@ public class Constant {
 	};
 
 	public final static String HUMAN_HG19 = "human (hg19)";
+	public final static String HUMAN_HG38 = "human (hg38)";
+	public final static String MOUSE_MM10 = "mouse (mm10)";
 	public final static String MOUSE_MM9 = "mouse (mm9)";
 	public final static String ZEBRAFISH = "zebrafish (zv9)";
 	public final static String FLY = "fly (dm6)";
@@ -31,10 +35,32 @@ public class Constant {
 		private static final long serialVersionUID = 1L;
 		{
 			add(HUMAN_HG19);
+			add(HUMAN_HG38);
+			add(MOUSE_MM10);
 			add(MOUSE_MM9);
 			add(ZEBRAFISH);
 			add(C_ELEGANS);
 			add(FLY);
+		}
+	};
+
+	public final static String HUMAN_HG19_FILE = "annotation" + File.separator + "Human_hg19.txt";
+	public final static String HUMAN_HG38_FILE = "annotation" + File.separator + "Human_hg38.txt";
+	public final static String MOUSE_MM10_FILE = "annotation" + File.separator + "Mouse_mm10.txt";
+	public final static String MOUSE_MM9_FILE = "annotation" + File.separator + "Mouse_mm9.txt";
+	public final static String ZEBRAFISH_FILE = "annotation" + File.separator + "Zebrafish_zv9.txt";
+	public final static String FLY_FILE = "annotation" + File.separator + "Fly_dm6.txt";
+	public final static String C_ELEGANS_FILE = "annotation" + File.separator + "C_elegans_ce10.txt";
+	public final static TreeMap<String, String> SPECIES_FILE = new TreeMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put(HUMAN_HG19, HUMAN_HG19_FILE);
+			put(HUMAN_HG38, HUMAN_HG38_FILE);
+			put(MOUSE_MM10, MOUSE_MM10_FILE);
+			put(MOUSE_MM9, MOUSE_MM9_FILE);
+			put(ZEBRAFISH, ZEBRAFISH_FILE);
+			put(C_ELEGANS, C_ELEGANS_FILE);
+			put(FLY, FLY_FILE);
 		}
 	};
 
@@ -59,7 +85,7 @@ public class Constant {
 	public final static String CONFIG_DB_SERVER = "dbserver";
 	public final static String CONFIG_DB_PORT = "dbport";
 	public final static String CONFIG_DB_USER = "dbuser";
-	public final static String CONFIG_DB_PASSWD = "dbpassed";
+	public final static String CONFIG_DB_PASSWD = "dbpasswd";
 	public final static String CONFIG_DB_NAME = "dbname";
 	public final static String CONFIG_SPECIES = "species";
 	public final static String CONFIG_CIRCRNA_TOOLS = "circrnatools";

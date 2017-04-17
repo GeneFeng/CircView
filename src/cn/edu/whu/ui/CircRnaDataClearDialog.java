@@ -5,23 +5,22 @@ import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import cn.edu.whu.MainData;
 import cn.edu.whu.CircView;
 
-public class SpeciesDataClearDialog extends JDialog {
+public class CircRnaDataClearDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	public SpeciesDataClearDialog() {
+	public CircRnaDataClearDialog() {
 		super(CircView.frame);
 		initUi();
-		setTitle("Clear Species Data");
+		setTitle("Clear CircRNA Data for:");
 		setResizable(false);
 		setSize(300, 65);
 		this.setLayout(new FlowLayout());
@@ -52,24 +51,31 @@ public class SpeciesDataClearDialog extends JDialog {
 		// Button
 		btClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(0 == cbSpecies.getItemCount()) {
+				if (null == cbSpecies.getSelectedItem()) {
 					return;
 				}
 				String delSpecies = cbSpecies.getSelectedItem().toString();
+				// Delete Species Data
 				if (null != MainData.getSpeciesData().get(delSpecies)) {
-					// Delete Species Data
 					MainData.getSpeciesData().remove(delSpecies);
-					MainData.getFileToolTable().remove(delSpecies);
-					CircView.updateSpeciesCombo();
-					CircView.updateCircRnaToolsCombo();
-					CircView.updateSamplesCombo();
-					CircView.updateCbChrom();
-					CircView.updateGeneTransList();
-					CircView.log.info(delSpecies + " Data Deleted");
-				} else {
-					JOptionPane.showMessageDialog(CircView.frame, "There is no data for " + delSpecies);
 				}
-				SpeciesDataClearDialog.this.dispose();
+				CircView.log.error("CircRNA Data for " + delSpecies + " is CLEARED");
+				// Delete CircRNA File Info for this Species
+				for (int i = MainData.getCircRnaFilesInfo().size() - 1; i >= 0; i--) {
+					Vector<String> rowData = MainData.getCircRnaFilesInfo().get(i);
+					String sname = rowData.get(0);
+					if (delSpecies.equalsIgnoreCase(sname)) {
+						MainData.getCircRnaFilesInfo().remove(i);
+					}
+				}
+				CircView.log.error("CircRNA files for " + delSpecies + " is DELETED");
+
+				CircView.updateSpeciesCombo();
+				CircView.updateCircRnaToolsCombo();
+				CircView.updateSamplesCombo();
+				CircView.updateCbChrom();
+				CircView.updateGeneTransList();
+				CircRnaDataClearDialog.this.dispose();
 			}
 
 		});

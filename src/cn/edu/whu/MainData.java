@@ -11,92 +11,85 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import cn.edu.whu.util.Constant;
+import cn.edu.whu.util.DbConfig;
 
 public class MainData {
-	private static TreeMap<String, TreeMap<String, Gene>> speciesData;
-	private static Vector<String> speciesNames;
-	private static Vector<String> circRnaToolNames;
-	private static TreeMap<String, Vector<Vector<String>>> fileToolTable;
+	private static TreeMap<String, String> speciesFile;					// SpeciesName - Species Data File Path
+	private static TreeMap<String, TreeMap<String, Gene>> speciesData;	// SpeciesName - Loaded Species Data
+	private static Vector<String> circRnaToolNames;						// Tool Names
+	private static Vector<Vector<String>> circRnaFilesInfo;
 	private static Properties properties;
+	private static DbConfig dbConfig;
 
 	public MainData() {
+		speciesFile = new TreeMap<String, String>();
 		speciesData = new TreeMap<String, TreeMap<String, Gene>>();
-		speciesNames = new Vector<String>();
 		circRnaToolNames = new Vector<String>();
-		fileToolTable = new TreeMap<String, Vector<Vector<String>>>();
+		circRnaFilesInfo = new Vector<Vector<String>>();
 		properties = new Properties();
+		dbConfig = new DbConfig();
 		configure();
 	}
 
 	private void configure() {
 		File file = new File(Constant.CONFIG_FILE);
 		if (file.exists()) {
-			readConfig();
+			readDbConfig();
 		} else {
-			loadDefaultConfig();
-			writeConfig();
+			initDbConfig();
+			writeDbConfig();
+		}
+		initSpeciesFile();
+		initTools();
+	}
+
+	private void initSpeciesFile() {
+		// Init Default Species Config
+		for (String speciesName : Constant.SPECIES_FILE.keySet()) {
+			speciesFile.put(speciesName, Constant.SPECIES_FILE.get(speciesName));
 		}
 	}
 
-	private void loadDefaultConfig() {
-		CircView.log.info("Load Default Config");
-		// Load Default Species Config
-		String strSpeices = new String();
-		for (String speciesName : Constant.SPECIES) {
-			speciesNames.add(speciesName);
-			strSpeices += speciesName + ";";
-		}
-		properties.setProperty(Constant.CONFIG_SPECIES, strSpeices);
-		// Load Default CircRNA Tools Config
-		String strTools = new String();
+	private void initTools() {
+		// Init Default CircRNA Tools Config
 		for (String circRnaToolName : Constant.CIRCRNA_TOOLS) {
 			circRnaToolNames.add(circRnaToolName);
-			strTools += circRnaToolName + ";";
 		}
-		properties.setProperty(Constant.CONFIG_CIRCRNA_TOOLS, strTools);
-		// Load Default Database Config
-		properties.setProperty(Constant.CONFIG_DB_SERVER, Constant.DEFAULT_DB_SERVER);
-		properties.setProperty(Constant.CONFIG_DB_PORT, Constant.DEFAULT_DB_PORT);
-		properties.setProperty(Constant.CONFIG_DB_USER, Constant.DEFAULT_DB_USER);
-		properties.setProperty(Constant.CONFIG_DB_PASSWD, Constant.DEFAULT_DB_PASSWD);
-		properties.setProperty(Constant.CONFIG_DB_NAME, Constant.DEFAULT_DB_NAME);
 	}
 
-	public static void readConfig() {
+	private void initDbConfig() {
+		CircView.log.info("Init Default Config");
+		// Init Default Database Config
+		dbConfig.setDbServer(Constant.DEFAULT_DB_SERVER);
+		dbConfig.setDbPort(Constant.DEFAULT_DB_PORT);
+		dbConfig.setDbUser(Constant.DEFAULT_DB_USER);
+		dbConfig.setDbPasswd(Constant.DEFAULT_DB_PASSWD);
+		dbConfig.setDbName(Constant.DEFAULT_DB_NAME);
+	}
+
+	public static void readDbConfig() {
 		// Read Configure File
 		CircView.log.info(Constant.CONFIG_FILE + " is loaded");
 		try {
 			InputStream in = new FileInputStream(Constant.CONFIG_FILE);
 			properties.load(in);
-			String names = properties.getProperty("species");
-			String[] tmp = names.split(";");
-			for (String name : tmp) {
-				speciesNames.add(name);
-			}
-			names = properties.getProperty("circrnatools");
-			tmp = names.split(";");
-			for (String name : tmp) {
-				circRnaToolNames.add(name);
-			}
+			dbConfig.setDbServer(properties.getProperty(Constant.CONFIG_DB_SERVER));
+			dbConfig.setDbPort(properties.getProperty(Constant.CONFIG_DB_PORT));
+			dbConfig.setDbUser(properties.getProperty(Constant.CONFIG_DB_USER));
+			dbConfig.setDbPasswd(properties.getProperty(Constant.CONFIG_DB_PASSWD));
+			dbConfig.setDbName(properties.getProperty(Constant.CONFIG_DB_NAME));
 		} catch (IOException e) {
 			CircView.log.info(e.getMessage());
 		}
 	}
 
-	public static void writeConfig() {
+	public static void writeDbConfig() {
 		try {
-			// Synchronize the Speices and CircRNA Tools data
-			String strSpeices = new String();
-			for (String speciesName : MainData.speciesNames) {
-				strSpeices += speciesName + ";";
-			}
-			properties.setProperty(Constant.CONFIG_SPECIES, strSpeices);
-			String strTools = new String();
-			for (String circRnaToolName : MainData.getCircRnaToolNames()) {
-				strTools += circRnaToolName + ";";
-			}
-			properties.setProperty(Constant.CONFIG_CIRCRNA_TOOLS, strTools);
-
+			properties.setProperty(Constant.CONFIG_DB_SERVER, Constant.DEFAULT_DB_SERVER);
+			properties.setProperty(Constant.CONFIG_DB_PORT, Constant.DEFAULT_DB_PORT);
+			properties.setProperty(Constant.CONFIG_DB_USER, Constant.DEFAULT_DB_USER);
+			properties.setProperty(Constant.CONFIG_DB_PASSWD, Constant.DEFAULT_DB_PASSWD);
+			properties.setProperty(Constant.CONFIG_DB_NAME, Constant.DEFAULT_DB_NAME);
 			// Write Config File
 			OutputStream os = new FileOutputStream(Constant.CONFIG_FILE);
 			properties.store(os, "Save Config File");
@@ -104,16 +97,6 @@ public class MainData {
 			CircView.log.error(e.getMessage());
 		}
 	}
-
-	// public static TreeMap<String, TreeMap<String, Gene>>
-	// getCircRnaToolsData() {
-	// return circRnaToolsData;
-	// }
-	//
-	// public static void setCircRnaToolsData(TreeMap<String, TreeMap<String,
-	// Gene>> circRnaTools) {
-	// MainData.circRnaToolsData = circRnaTools;
-	// }
 
 	public static TreeMap<String, TreeMap<String, Gene>> getSpeciesData() {
 		return speciesData;
@@ -123,21 +106,12 @@ public class MainData {
 		MainData.speciesData = speciesData;
 	}
 
-	// public static TreeMap<String, Integer> getCircRnaSampleFilesNum() {
-	// return circRnaSampleFilesNum;
-	// }
-	//
-	// public static void setCircRnaSampleFilesNum(TreeMap<String, Integer>
-	// circRnaSampleFilesNum) {
-	// MainData.circRnaSampleFilesNum = circRnaSampleFilesNum;
-	// }
-
-	public static Vector<String> getSpeciesNames() {
-		return speciesNames;
+	public static TreeMap<String, String> getSpeciesFile() {
+		return speciesFile;
 	}
 
-	public static void setSpeciesNames(Vector<String> speciesNames) {
-		MainData.speciesNames = speciesNames;
+	public static void setSpeciesFile(TreeMap<String, String> speciesFile) {
+		MainData.speciesFile = speciesFile;
 	}
 
 	public static Vector<String> getCircRnaToolNames() {
@@ -148,36 +122,12 @@ public class MainData {
 		MainData.circRnaToolNames = circRnaToolNames;
 	}
 
-//	public static TreeMap<String, Vector<String>> getLoadedToolName() {
-//		return loadedToolName;
-//	}
-//
-//	public static void setLoadedToolName(TreeMap<String, Vector<String>> loadedToolName) {
-//		MainData.loadedToolName = loadedToolName;
-//	}
-//
-//	public static TreeMap<String, Vector<String>> getSampleName() {
-//		return sampleName;
-//	}
-//
-//	public static void setSampleName(TreeMap<String, Vector<String>> sampleName) {
-//		MainData.sampleName = sampleName;
-//	}
-//
-//	public static TreeMap<String, Vector<String>> getFileName() {
-//		return fileName;
-//	}
-//
-//	public static void setFileName(TreeMap<String, Vector<String>> fileName) {
-//		MainData.fileName = fileName;
-//	}
-	
-	public static TreeMap<String, Vector<Vector<String>>> getFileToolTable() {
-		return fileToolTable;
+	public static Vector<Vector<String>> getCircRnaFilesInfo() {
+		return circRnaFilesInfo;
 	}
 
-	public static void setFileToolTable(TreeMap<String, Vector<Vector<String>>> fileToolTable) {
-		MainData.fileToolTable = fileToolTable;
+	public static void setCircRnaFilesInfo(Vector<Vector<String>> circRnaFilesInfo) {
+		MainData.circRnaFilesInfo = circRnaFilesInfo;
 	}
 
 	public static Properties getProperties() {
@@ -188,32 +138,12 @@ public class MainData {
 		MainData.properties = properties;
 	}
 
-	// private void initBaseData() {
-	// // Init the Clean Species Template Data
-	// for (String speciesName : Constant.SPECIES.keySet()) {
-	// CircRnaTool speciesData = new CircRnaTool();
-	// speciesData.initSpeciesDataFromFile(speciesName);
-	// cleanSpeciesDatas.put(speciesName, speciesData);
-	// }
-	// }
-	//
-	// public void initSpeciesData() {
-	// for (String speciesName : Constant.SPECIES.keySet()) {
-	// CircRnaTool cleanData = cleanSpeciesDatas.get(speciesName);
-	// for (String circRnaTool : Constant.CIRCRNA_TOOLS.keySet()) {
-	// CircRnaTool oneData = cleanData.deepClone();
-	// oneData.setSpeciesName(speciesName);
-	// oneData.setCircRnaTool(circRnaTool);
-	// circRnaToolsData.put(speciesName + circRnaTool, oneData);
-	// }
-	// }
-	// }
-	//
-	// public void clearData(String speciesName, String circRnaTool) {
-	// CircRnaTool mainData = cleanSpeciesDatas.get(speciesName).deepClone();
-	// mainData.setSpeciesName(speciesName);
-	// mainData.setCircRnaTool(circRnaTool);
-	// circRnaToolsData.put(speciesName + circRnaTool, mainData);
-	// }
-	//
+	public static DbConfig getDbConfig() {
+		return dbConfig;
+	}
+
+	public static void setDbConfig(DbConfig dbConfig) {
+		MainData.dbConfig = dbConfig;
+	}
+
 }

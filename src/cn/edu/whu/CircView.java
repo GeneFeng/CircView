@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 
 import javax.swing.JList;
 import java.awt.event.ActionListener;
@@ -34,6 +35,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,6 +60,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import cn.edu.whu.ui.AboutDialog;
+import cn.edu.whu.ui.CircRnaDataClearDialog;
 import cn.edu.whu.ui.CircRnaImagePanel;
 import cn.edu.whu.ui.CircRnaDataLoadDialog;
 import cn.edu.whu.ui.CircRnaToolAddDialog;
@@ -66,10 +70,8 @@ import cn.edu.whu.ui.DetailsResultDialog;
 import cn.edu.whu.ui.DataLoadingDialog;
 import cn.edu.whu.ui.RbpLoadDialog;
 import cn.edu.whu.ui.SaveImageDialog;
-import cn.edu.whu.ui.SpeciesNameAddDialog;
-import cn.edu.whu.ui.SpeciesNameDelDialog;
-import cn.edu.whu.ui.SpeciesDataClearDialog;
-import cn.edu.whu.ui.SpeciesDataLoadDialog;
+import cn.edu.whu.ui.SpeciesAddDialog;
+import cn.edu.whu.ui.SpeciesDelDialog;
 import cn.edu.whu.ui.RbpClearDialog;
 import cn.edu.whu.ui.MreClearDialog;
 import cn.edu.whu.ui.MreLoadDialog;
@@ -241,45 +243,42 @@ public class CircView {
 		frame.setJMenuBar(menuBar);
 		// Add Menu to MenuBar
 		JMenu mnFile = new JMenu("File");
-		JMenu mnSpecies = new JMenu("Species");
 		JMenu mnCircRna = new JMenu("CircRNA");
 		JMenu mnAnalysis = new JMenu("Analysis");
+		JMenu mnSpecies = new JMenu("Species");
 		JMenu mnMre = new JMenu("MRE");
 		JMenu mnRbp = new JMenu("RBP");
+		JMenu mnDbLink = new JMenu("Database Link");
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnFile);
-		menuBar.add(mnSpecies);
 		menuBar.add(mnCircRna);
 		menuBar.add(mnAnalysis);
+		menuBar.add(mnSpecies);
 		menuBar.add(mnMre);
 		menuBar.add(mnRbp);
+		menuBar.add(mnDbLink);
 		menuBar.add(mnHelp);
 		// Add MenuItem to File Menu
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnFile.add(mntmQuit);
-		// Add MenuItem to Species Menu
-		JMenuItem mntmSpeciesLoad = new JMenuItem("Load Data");
-		JMenuItem mntmSpeciesClear = new JMenuItem("Clear");
-		JMenuItem mntmSpeciesAdd = new JMenuItem("Add Species");
-		JMenuItem mntmSpeciesDel = new JMenuItem("Delete Species");
-		mnSpecies.add(mntmSpeciesLoad);
-		mnSpecies.add(mntmSpeciesClear);
-		mnSpecies.addSeparator();
-		mnSpecies.add(mntmSpeciesAdd);
-		mnSpecies.add(mntmSpeciesDel);
 		// Add MenuItem to CircRNA Menu
 		JMenuItem mntmCircRnaLoad = new JMenuItem("Load Data");
-		// JMenuItem mntmCircRnaClear = new JMenuItem("Clear");
+		JMenuItem mntmCircRnaClear = new JMenuItem("Clear Data");
 		JMenuItem mntmCircRnaAdd = new JMenuItem("Add Tool");
 		JMenuItem mntmCircRnaDel = new JMenuItem("Delete Tool");
 		mnCircRna.add(mntmCircRnaLoad);
-		// mnCircRna.add(mntmCircRnaClear);
+		mnCircRna.add(mntmCircRnaClear);
 		mnCircRna.addSeparator();
 		mnCircRna.add(mntmCircRnaAdd);
 		mnCircRna.add(mntmCircRnaDel);
 		// Add MenuItem to Analysis Menu
 		JMenuItem mntmCompare = new JMenuItem("Comparison");
 		mnAnalysis.add(mntmCompare);
+		// Add MenuItem to Species Menu
+		JMenuItem mntmSpeciesAdd = new JMenuItem("Add Species");
+		JMenuItem mntmSpeciesDel = new JMenuItem("Delete Species");
+		mnSpecies.add(mntmSpeciesAdd);
+		mnSpecies.add(mntmSpeciesDel);
 		// Add MenuItem to MRE Menu
 		JMenuItem mntmMreLoad = new JMenuItem("Load Data");
 		JMenuItem mntmMreClear = new JMenuItem("Clear");
@@ -290,6 +289,17 @@ public class CircView {
 		JMenuItem mntmRbpClear = new JMenuItem("Clear");
 		mnRbp.add(mntmRbpLoad);
 		mnRbp.add(mntmRbpClear);
+		// Add MenuItem to Database Link Menu
+		JMenuItem mntmLink1 = new JMenuItem("CircBase");
+		JMenuItem mntmLink2 = new JMenuItem("Circ2Traits");
+		JMenuItem mntmLink3 = new JMenuItem("TSCD");
+		JMenuItem mntmLink4 = new JMenuItem("CircNet");
+		JMenuItem mntmLink5 = new JMenuItem("circRNADb");
+		mnDbLink.add(mntmLink1);
+		mnDbLink.add(mntmLink2);
+		mnDbLink.add(mntmLink3);
+		mnDbLink.add(mntmLink4);
+		mnDbLink.add(mntmLink5);
 		// Add MenuItem to Help
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mnHelp.add(mntmAbout);
@@ -310,38 +320,16 @@ public class CircView {
 			}
 		});
 
-		// Add ActionListener to Species Data Load MenuItem
-		mntmSpeciesLoad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SpeciesDataLoadDialog();
-			}
-		});
-
-		// Add ActionListener to CircRNA Clear MenuItem
-		mntmSpeciesClear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SpeciesDataClearDialog();
-			}
-		});
-
-		// Add ActionListener to Species Name Add MenuItem
-		mntmSpeciesAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SpeciesNameAddDialog();
-			}
-		});
-
-		// Add ActionListener to Species Name Delete MenuItem
-		mntmSpeciesDel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SpeciesNameDelDialog();
-			}
-		});
-
 		// Add ActionListener to CircRNA Load MenuItem
 		mntmCircRnaLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CircRnaDataLoadDialog();
+			}
+		});
+
+		mntmCircRnaClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CircRnaDataClearDialog();
 			}
 		});
 
@@ -363,6 +351,20 @@ public class CircView {
 		mntmCompare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ComparisonFrame();
+			}
+		});
+
+		// Add ActionListener to Species Name Add MenuItem
+		mntmSpeciesAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SpeciesAddDialog();
+			}
+		});
+
+		// Add ActionListener to Species Name Delete MenuItem
+		mntmSpeciesDel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SpeciesDelDialog();
 			}
 		});
 
@@ -389,6 +391,73 @@ public class CircView {
 		mntmRbpClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new RbpClearDialog(conn);
+			}
+		});
+
+		// Add ActionListener to Database Link MenuItem
+		mntmLink1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://circbase.org");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://gyanxet-beta.com/circdb/");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://gb.whu.edu.cn/TSCD/");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://circnet.mbc.nctu.edu.tw");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://reprod.njmu.edu.cn/circrnadb");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
 			}
 		});
 
@@ -448,27 +517,7 @@ public class CircView {
 		cbCircRnaTool.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					String speciesName = (String) cbSpecies.getSelectedItem();
-					String toolName = (String) cbCircRnaTool.getSelectedItem();
-					if (null == speciesName || null == toolName) {
-						return;
-					}
-					cbSample.removeAllItems();
-					cbSample.addItem("All");
-
-					if (null == MainData.getFileToolTable().get(speciesName)) {
-						return;
-					}
-
-					TreeMap<String, String> samples = new TreeMap<String, String>();
-					Vector<Vector<String>> table = MainData.getFileToolTable().get(speciesName);
-					for (Vector<String> line : table) {
-						if (toolName.equalsIgnoreCase("All") || line.get(1).equalsIgnoreCase(toolName))
-							samples.put(line.get(2), line.get(2));
-					}
-					for (String sampleName : samples.keySet()) {
-						cbSample.addItem(sampleName);
-					}
+					updateSamplesCombo();
 					updateGeneTransList();
 				}
 			}
@@ -494,7 +543,7 @@ public class CircView {
 				}
 			}
 		});
-		cbChrom.addItem("All");
+		cbChrom.addItem("Chrom");
 
 		// Search
 		JLabel lbGeneName = new JLabel("Gene Name:", JLabel.RIGHT);
@@ -981,17 +1030,19 @@ public class CircView {
 			}
 		}
 		String species = (String) cbSpecies.getSelectedItem();
-		Vector<Vector<String>> table = MainData.getFileToolTable().get(species);
-		if (null != table) {
-			TreeMap<String, String> sampleName = new TreeMap<String, String>();
-			TreeMap<String, String> toolName = new TreeMap<String, String>();
-			for (Vector<String> line : table) {
-				toolName.put(line.get(1), line.get(1));
-				int tmpP = line.get(2).lastIndexOf(".");
-				sampleName.put(line.get(2).substring(0, tmpP), line.get(2));
+		TreeMap<String, String> sampleName = new TreeMap<String, String>();
+		TreeMap<String, String> toolName = new TreeMap<String, String>();
+		for (Vector<String> rowData : MainData.getCircRnaFilesInfo()) {
+			String sname = rowData.get(0);
+			String tname = rowData.get(1);
+			String fname = rowData.get(2);
+			if (species.equalsIgnoreCase(sname)) {
+				toolName.put(tname, tname);
+				int tmpP = fname.lastIndexOf(".");
+				sampleName.put(fname.substring(0, tmpP), fname);
 			}
-			circRnaImage.setGt(geneTranscript, sampleName.size(), toolName.size());
 		}
+		circRnaImage.setGt(geneTranscript, sampleName.size(), toolName.size());
 	}
 
 	private void updateCircRnasCheckList() {
@@ -1044,11 +1095,11 @@ public class CircView {
 				for (String transName : gene.getGeneTranscripts().keySet()) {
 					GeneTranscript geneTrans = gene.getGeneTranscripts().get(transName);
 					if ((geneTrans.getCircRnas().size() > 0)
-							&& ((chrom.equalsIgnoreCase("All")) || (geneTrans.getChrom().equalsIgnoreCase(chrom)))) {
-						if (toolName.equalsIgnoreCase("All") && sampleName.equalsIgnoreCase("All")) {
+							&& ((chrom.equalsIgnoreCase("Chrom")) || (geneTrans.getChrom().equalsIgnoreCase(chrom)))) {
+						if (toolName.equalsIgnoreCase("Tool") && sampleName.equalsIgnoreCase("Sample")) {
 							geneTransName.addElement(gene.getGeneName() + " [" + geneTrans.getTranscriptName() + "] "
 									+ "(" + geneTrans.getCircRnas().size() + ")");
-						} else if (toolName.equalsIgnoreCase("All")) {
+						} else if (toolName.equalsIgnoreCase("Tool")) {
 							boolean sign = false;
 							for (String circRnaName : geneTrans.getCircRnas().keySet()) {
 								CircRna circRna = geneTrans.getCircRnas().get(circRnaName);
@@ -1066,7 +1117,7 @@ public class CircView {
 								geneTransName.addElement(gene.getGeneName() + " [" + geneTrans.getTranscriptName()
 										+ "] " + "(" + geneTrans.getCircRnas().size() + ")");
 							}
-						} else if (sampleName.equalsIgnoreCase("All")) {
+						} else if (sampleName.equalsIgnoreCase("Sample")) {
 							boolean sign = false;
 							for (String circRnaName : geneTrans.getCircRnas().keySet()) {
 								CircRna circRna = geneTrans.getCircRnas().get(circRnaName);
@@ -1229,7 +1280,7 @@ public class CircView {
 
 	public static void updateCbChrom() {
 		cbChrom.removeAllItems();
-		cbChrom.addItem("All");
+		cbChrom.addItem("Chrom");
 		if (genes == null) {
 		} else {
 			TreeMap<String, String> chrom = new TreeMap<String, String>();
@@ -1270,21 +1321,21 @@ public class CircView {
 	}
 
 	public static void updateCircRnaToolsCombo() {
-		String speciesName = "";
-		if (null != cbSpecies.getSelectedItem()) {
-			speciesName = cbSpecies.getSelectedItem().toString();
-		}
 		cbCircRnaTool.removeAllItems();
-		cbCircRnaTool.addItem("All");
+		cbCircRnaTool.addItem("Tool");
 
-		if (null == MainData.getFileToolTable().get(speciesName)) {
+		if (null == cbSpecies.getSelectedItem()) {
 			return;
 		}
 
+		String speciesName = cbSpecies.getSelectedItem().toString();
 		TreeMap<String, String> tools = new TreeMap<String, String>();
-		Vector<Vector<String>> table = MainData.getFileToolTable().get(speciesName);
-		for (Vector<String> line : table) {
-			tools.put(line.get(1), line.get(1));
+		for (Vector<String> rowData : MainData.getCircRnaFilesInfo()) {
+			String sname = rowData.get(0);
+			String tname = rowData.get(1);
+			if (speciesName.equalsIgnoreCase(sname)) {
+				tools.put(tname, tname);
+			}
 		}
 		for (String toolName : tools.keySet()) {
 			cbCircRnaTool.addItem(toolName);
@@ -1292,21 +1343,27 @@ public class CircView {
 	}
 
 	public static void updateSamplesCombo() {
-		String speciesName = "";
-		if (null != cbSpecies.getSelectedItem()) {
-			speciesName = cbSpecies.getSelectedItem().toString();
-		}
 		cbSample.removeAllItems();
-		cbSample.addItem("All");
+		cbSample.addItem("Sample");
 
-		if (null == MainData.getFileToolTable().get(speciesName)) {
+		if (null == cbSpecies.getSelectedItem()) {
 			return;
 		}
+		if (null == cbCircRnaTool.getSelectedItem()) {
+			return;
+		}
+		String speciesName = cbSpecies.getSelectedItem().toString();
+		String circRnaTool = cbCircRnaTool.getSelectedItem().toString();
 
 		TreeMap<String, String> samples = new TreeMap<String, String>();
-		Vector<Vector<String>> table = MainData.getFileToolTable().get(speciesName);
-		for (Vector<String> line : table) {
-			samples.put(line.get(2), line.get(2));
+		for (Vector<String> rowData : MainData.getCircRnaFilesInfo()) {
+			String sname = rowData.get(0);
+			String tname = rowData.get(1);
+			String fname = rowData.get(2);
+			if (speciesName.equalsIgnoreCase(sname)
+					&& ((circRnaTool.equalsIgnoreCase(tname)) || (circRnaTool.equalsIgnoreCase("Tool")))) {
+				samples.put(fname, fname);
+			}
 		}
 		for (String sampleName : samples.keySet()) {
 			cbSample.addItem(sampleName);

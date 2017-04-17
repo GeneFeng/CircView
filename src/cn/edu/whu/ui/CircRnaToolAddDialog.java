@@ -12,11 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import com.mysql.jdbc.StringUtils;
+
 import cn.edu.whu.MainData;
 import cn.edu.whu.CircView;
 
 public class CircRnaToolAddDialog extends JDialog {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public CircRnaToolAddDialog() {
@@ -59,19 +61,27 @@ public class CircRnaToolAddDialog extends JDialog {
 		btAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newTool = tfTools.getText();
+				if (StringUtils.isEmptyOrWhitespaceOnly(newTool)) {
+					JOptionPane.showMessageDialog(CircRnaToolAddDialog.this, "CircRNA Tool Name is Needed", "warning",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				boolean existed = false;
 				for (String oldTool : MainData.getCircRnaToolNames()) {
 					if (newTool.equals(oldTool)) {
-						// Species Name already exists
-						JOptionPane.showMessageDialog(CircRnaToolAddDialog.this, "warning",
-								"CircRNA Tools already exsits", JOptionPane.ERROR_MESSAGE);
-					} else {
-						MainData.getCircRnaToolNames().add(newTool);
-						cbTools.addItem(newTool);
-						tfTools.setText("");
-						MainData.writeConfig();
-						CircView.log.info("New CircRnaTool [" + newTool+ "] Added." );
-						break;
+						existed = true;
 					}
+				}
+				if (existed) {
+					// Species Name already exists
+					JOptionPane.showMessageDialog(CircRnaToolAddDialog.this, "CircRNA Tools already exsits", "warning",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					MainData.getCircRnaToolNames().add(newTool);
+					cbTools.addItem(newTool);
+					tfTools.setText("");
+					MainData.writeDbConfig();
+					CircView.log.info("New CircRnaTool [" + newTool + "] Added.");
 				}
 			}
 		});

@@ -66,7 +66,7 @@ public class SaveImageDialog extends JDialog {
 				int w = Integer.parseInt(tfWidth.getText());
 				int h = Integer.parseInt(tfHeight.getText());
 				if (w * h > 20000 * 10000) {
-					JOptionPane.showMessageDialog(CircView.frame, "Can NOT Create Such Large Image!");
+					JOptionPane.showMessageDialog(CircView.frame, "Image Size MUST Be Smaller than 20000 * 10000");
 				} else if (w > 0 && h > 0) {
 					SaveImageDialog.this.setVisible(false);
 					ImageSaveFileChooser saveFile = new ImageSaveFileChooser("Save Image as ...");

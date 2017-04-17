@@ -1,10 +1,5 @@
 package cn.edu.whu.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,10 +14,10 @@ import cn.edu.whu.CircView;
 
 public class DbUtil {
 	public static Connection connectDb() throws ClassNotFoundException, SQLException {
-		String server = MainData.getProperties().getProperty(Constant.CONFIG_DB_SERVER);
-		String port = MainData.getProperties().getProperty(Constant.CONFIG_DB_PORT);
-		String user = MainData.getProperties().getProperty(Constant.CONFIG_DB_USER);
-		String passwd = MainData.getProperties().getProperty(Constant.CONFIG_DB_PASSWD);
+		String server = MainData.getDbConfig().getDbServer();
+		String port = MainData.getDbConfig().getDbPort();
+		String user = MainData.getDbConfig().getDbUser();
+		String passwd = MainData.getDbConfig().getDbPasswd();
 
 		String url = "jdbc:mysql://" + server + ":" + port + "?" + "user=" + user + "&password=" + passwd;
 		CircView.log.info(url);
@@ -34,7 +29,7 @@ public class DbUtil {
 		if (null == conn || conn.isClosed()) {
 			conn = connectDb();
 		}
-		String sql = "create database if not exists " + MainData.getProperties().getProperty(Constant.CONFIG_DB_NAME);
+		String sql = "create database if not exists " + MainData.getDbConfig().getDbName();
 		CircView.log.info(sql);
 		Statement st = conn.createStatement();
 		st.executeUpdate(sql);
@@ -44,7 +39,7 @@ public class DbUtil {
 		if (null == conn || conn.isClosed()) {
 			conn = connectDb();
 		}
-		String sql = "use " + MainData.getProperties().getProperty(Constant.CONFIG_DB_NAME);
+		String sql = "use " + MainData.getDbConfig().getDbName();
 		CircView.log.info(sql);
 		Statement st = conn.createStatement();
 		st.executeUpdate(sql);

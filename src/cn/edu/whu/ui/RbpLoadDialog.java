@@ -2,7 +2,6 @@ package cn.edu.whu.ui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +58,7 @@ public class RbpLoadDialog extends JDialog {
 				}
 			}
 		});
-		for (String speciesName : MainData.getSpeciesNames()) {
+		for (String speciesName : MainData.getSpeciesFile().keySet()) {
 			cbSpecies.addItem(speciesName);
 		}
 		// Button

@@ -2,7 +2,6 @@ package cn.edu.whu.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -31,10 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import cn.edu.whu.CircRna;
@@ -46,6 +42,7 @@ import cn.edu.whu.util.Constant;
 import cn.edu.whu.util.EvenOddRenderer;
 
 public class ComparisonFrame extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JComboBox<String> cbSpecies;
 	private JComboBox<String> cbTolerate;
 	private JList<String> jlUnSelected;
@@ -164,8 +161,8 @@ public class ComparisonFrame extends JFrame {
 		colName.addElement("tissue num");
 		colName.addElement("sample name");
 		colName.addElement("sample num");
-		colName.addElement("algorithm name");
-		colName.addElement("algorithm num");
+		colName.addElement("tool name");
+		colName.addElement("tool num");
 		colName.addElement("circRNA type");
 		colName.addElement("circRNA region");
 
@@ -174,17 +171,22 @@ public class ComparisonFrame extends JFrame {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					unSelected.removeAllElements();
 					selected.removeAllElements();
-					String species = (String) cbSpecies.getSelectedItem();
-					if (null == species) {
+					if(null == cbSpecies.getSelectedItem()) {
 						return;
 					}
-					if (null != MainData.getFileToolTable().get(species)) {
-						Vector<Vector<String>> table = MainData.getFileToolTable().get(species);
-						TreeMap<String, String> tools = new TreeMap<String, String>();
-						for (Vector<String> line : table) {
-							unSelected.add(line.get(2));
+					String species = cbSpecies.getSelectedItem().toString();
+					TreeMap<String, String> tools = new TreeMap<String, String>();
+					for(Vector<String> rowData : MainData.getCircRnaFilesInfo()) {
+						String sname = rowData.get(0);
+						String fname = rowData.get(2);
+						if(species.equalsIgnoreCase(sname)) {
+							tools.put(fname, fname);
 						}
 					}
+					for(String tool : tools.keySet()) {
+						unSelected.add(tool);
+					}
+					
 					jlUnSelected.setListData(unSelected);
 					jlSelected.setListData(selected);
 				}
@@ -423,19 +425,21 @@ public class ComparisonFrame extends JFrame {
 						tissues.put(tmp[0], 1);
 					}
 
-					Vector<Vector<String>> table = MainData.getFileToolTable().get(species);
 					// tissues name, smaples name, tools name from file table
 					TreeMap<String, Integer> fTissues = new TreeMap<String, Integer>();
 					TreeMap<String, Integer> fSamples = new TreeMap<String, Integer>();
 					TreeMap<String, Integer> fTools = new TreeMap<String, Integer>();
 					for (String name : selected) {
-						for (Vector<String> line : table) {
-							if (line.get(2).equalsIgnoreCase(name)) {
-								String[] tmp = name.split("_");
+						for (Vector<String> rowData : MainData.getCircRnaFilesInfo()) {
+							String sname = rowData.get(0);
+							String tname = rowData.get(1);
+							String fname = rowData.get(2);
+							if(species.equalsIgnoreCase(sname) && fname.equalsIgnoreCase(name)) {
+								String[] tmp = fname.split("_");
 								fTissues.put(tmp[0], 1);
-								tmp = name.split("\\.");
+								tmp = fname.split("\\.");
 								fSamples.put(tmp[0], 1);
-								fTools.put(line.get(1), 1);
+								fTools.put(tname, 1);
 							}
 						}
 					}
@@ -545,15 +549,15 @@ public class ComparisonFrame extends JFrame {
 					one.addElement(sample);
 					one.addElement(sampleNum + "");
 					// CircRNA Tools or Algorithm
-					String algorithm = "";
+					String tool = "";
 					int toolNum = 0;
 					for (String toolName : fTools.keySet()) {
 						if (null != tools.get(toolName)) {
-							algorithm += toolName + ",";
+							tool += toolName + ",";
 							toolNum++;
 						}
 					}
-					one.addElement(algorithm);
+					one.addElement(tool);
 					one.addElement(toolNum + "");
 					// CircRNA Type
 					one.addElement(gt.getCircRnas().get(circId).getCircRnaType());

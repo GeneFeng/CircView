@@ -2,7 +2,6 @@ package cn.edu.whu.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -12,11 +11,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-
-import cn.edu.whu.CircView;
 
 public class DataLoadingProgressDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
