@@ -17,7 +17,7 @@
 > 2.1.7 Click one "Circle" to view details of each circRNA.  
 > <img src="image/one-circrna.png" width="80%">  
 > 2.1.8	Detailed information and image of circRNAs can be saved for further use.  
-> 2.1.9	Click "Analysis"->"Comparison" to make a comparison between circRNAs with different samples and/or algorithms.  
+> 2.1.9	Click "Analysis"->"Comparison" to make a comparison between circRNAs with different samples and/or tools.  
 > <img src="image/comparison-table.png" width="80%">  
 
 >  
