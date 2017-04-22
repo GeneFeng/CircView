@@ -625,15 +625,15 @@ public class CircRnaImagePanel extends JPanel {
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, CIRCRNA_INFO_FONT));
 			String recSample = "recurrent sample:" + circRna.getSamples().size() + "/" + sampleNum + "="
 					+ Math.round(100.0 * circRna.getSamples().size() / sampleNum) + "%";
-			String recAlgorithm = "overlap tool:" + circRna.getCircTools().size() + "/" + toolNum + "="
+			String recTool = "overlap tool:" + circRna.getCircTools().size() + "/" + toolNum + "="
 					+ Math.round(100.0 * circRna.getCircTools().size() / toolNum) + "%";
 			String junctionReads = "max abundance:" + circRna.getJunctionReads();
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, (int) Math.round(diameter / 16.0)));
 			g2d.drawString(recSample,
 					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recSample) / 2.0),
 					(int) Math.round(centY.get(circNum) - diameter / 10.0));
-			g2d.drawString(recAlgorithm,
-					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recAlgorithm) / 2.0),
+			g2d.drawString(recTool,
+					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(recTool) / 2.0),
 					(int) Math.round(centY.get(circNum)));
 			g2d.drawString(junctionReads,
 					(int) Math.round(centX.get(circNum) - g2d.getFontMetrics().stringWidth(junctionReads) / 2.0),
@@ -1082,7 +1082,7 @@ public class CircRnaImagePanel extends JPanel {
 				details += sampleName + ',';
 			}
 			details += "\n";
-			details += "Algorithm: ";
+			details += "Tool: ";
 			for (String circTool : circRna.getCircTools().keySet()) {
 				details += circTool + ',';
 			}
