@@ -55,16 +55,20 @@
 > Load MRE or RBP file will create table and deposit data into MySQL database, and Clear MRE or RBP will remove data from the database. As the data are persistent, users should not load the same data for more than once.  
 > <img src="image/mre-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mre-clear.png" width="40%">  
   
-**6.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
+**6.	HOW TO FIND CIRCRNA DATABASES**  
+> CircView provides links to some circRNA databases.  
+> <img src="image/dblink.png" width="40%">  
+  
+**7.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
 > Java Virtual Machine need to be installed before running this program. Simply access http://www.java.com, download Java, and install it.  
   
-**7.	HOW TO INSTALL MYSQL**  
-> **7.1.	For Windows**  
-> 7.1.1	Download and decompress MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
-> 7.1.2	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
-> 7.1.3	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Please create password “12345” for user root during installation.  
+**8.	HOW TO INSTALL MYSQL**  
+> **8.1.	For Windows**  
+> 8.1.1	Download and decompress MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql_windows.tar.gz  
+> 8.1.2	Double click “NDP46-KB3045557-x86-x64-AllOS-ENU.exe” to install .NET Framework.  
+> 8.1.3	Double click “mysql-installer-community-5.7.16.0.msi” to install MySQL. Please create password “12345” for user root during installation.  
 >  
-> **7.2.	 For Mac OS**  
-> 7.2.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
-> 7.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Please create password “12345” for user root during installation.  
+> **8.2.	 For Mac OS**  
+> 8.2.1	Download MySQL Installation file from http://gb.whu.edu.cn/CircView/MySQL/mysql-5.7.17-macos10.12-x86_64.dmg  
+> 8.2.2	Double click “mysql-5.7.17-macos10.12-x86_64.dmg” to install MySQL. Please create password “12345” for user root during installation.  
   
