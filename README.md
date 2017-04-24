@@ -1,6 +1,6 @@
 **1.	BEST PRACTISE**  
 > **1.1.	Basic Feature: CircRNAs Visualization**  
-> 1.1.1	Java Virtual Machine should be installed before running this program. See **7 HOW TO INSTALL JAVA VIRTUAL MACHINE**.  
+> 1.1.1	Java Virtual Machine needs to be installed before running this program. See **7 HOW TO INSTALL JAVA VIRTUAL MACHINE**.  
 > 1.1.2	Download and decompress "CircView.tar.gz" from http://github.com/GeneFeng/CircView/blob/master/CircView.tar.gz  
 > Double click CircView.jar to launch the program.  
 > 1.1.3	Download and decompress circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz    
@@ -17,7 +17,7 @@
 > Click "Save as" button to export results to a ".csv" file for further use.  
 
 > **1.2.	Advanced Feature: MRE and RBP sites Visualization on CircRNAs**  
-> 1.2.1	MySQL need to be installed, see **8 HOW TO INSTALL MYSQL**.  
+> 1.2.1	MySQL needs to be installed, see **8 HOW TO INSTALL MYSQL**.  
 > 1.2.2	Restart CircView.jar  
 > 1.2.3	Download and decompress MRE data from http://gb.whu.edu.cn/CircView/testdata/mre_human.tar.gz   
 > 1.2.4	Click “MRE”->”Load Data” to load MRE file.  
@@ -63,7 +63,7 @@
 > <img src="image/dblink.png" width="80%">  
   
 **7.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
-> Java Virtual Machine need be installed before running this program. Simply access http://www.java.com, download Java, and install it.  
+> Java Virtual Machine needs to be installed before running this program. Simply access http://www.java.com, download Java, and install it.  
   
 **8.	HOW TO INSTALL MYSQL**  
 > **8.1.	For Windows**  
