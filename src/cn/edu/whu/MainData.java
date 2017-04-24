@@ -21,6 +21,7 @@ public class MainData {
 																		// Loaded
 																		// Species
 																		// Data
+	private static Vector<String> speciesNames;		// Tool Names
 	private static Vector<String> circRnaToolNames; // Tool Names
 	private static Vector<Vector<String>> circRnaFilesInfo;
 	private static Properties properties;
@@ -29,6 +30,7 @@ public class MainData {
 	public MainData() {
 		speciesFile = new TreeMap<String, String>();
 		speciesData = new TreeMap<String, TreeMap<String, Gene>>();
+		speciesNames = new Vector<String>();
 		circRnaToolNames = new Vector<String>();
 		circRnaFilesInfo = new Vector<Vector<String>>();
 		properties = new Properties();
@@ -50,9 +52,10 @@ public class MainData {
 
 	private void initSpeciesFile() {
 		// Init Default Species Config
-		for (String speciesName : Constant.SPECIES_FILE.keySet()) {
+		for (String speciesName : Constant.SPECIES) {
 			File file = new File(Constant.SPECIES_FILE.get(speciesName));
 			if (file.exists()) {
+				speciesNames.add(speciesName);
 				speciesFile.put(speciesName, Constant.SPECIES_FILE.get(speciesName));
 			} else {
 				CircView.log.info("Can not find annotation file " + file.getName());
@@ -122,6 +125,14 @@ public class MainData {
 
 	public static void setSpeciesFile(TreeMap<String, String> speciesFile) {
 		MainData.speciesFile = speciesFile;
+	}
+
+	public static Vector<String> getSpeciesNames() {
+		return speciesNames;
+	}
+
+	public static void setSpeciesNames(Vector<String> speciesNames) {
+		MainData.speciesNames = speciesNames;
 	}
 
 	public static Vector<String> getCircRnaToolNames() {

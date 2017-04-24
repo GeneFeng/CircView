@@ -90,6 +90,7 @@ public class SpeciesAddDialog extends JDialog {
 					JOptionPane.showMessageDialog(CircView.frame, "Species [" + speciesName + "] already exists");
 					return;
 				} else {
+					MainData.getSpeciesNames().add(speciesName);
 					MainData.getSpeciesFile().put(speciesName, speciesFile.getPath());
 					CircView.log.error(speciesName + " " + speciesFile.getPath() + " is added.");
 					JOptionPane.showMessageDialog(CircView.frame,

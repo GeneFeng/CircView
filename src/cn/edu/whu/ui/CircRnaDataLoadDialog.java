@@ -66,7 +66,7 @@ public class CircRnaDataLoadDialog extends JDialog {
 		jpNorth.add(btAdd);
 		getContentPane().add(jpNorth, BorderLayout.NORTH);
 
-		for (String speciesName : MainData.getSpeciesFile().keySet()) {
+		for (String speciesName : MainData.getSpeciesNames()) {
 			cbSpecies.addItem(speciesName);
 		}
 		for (String circRnaToolName : MainData.getCircRnaToolNames()) {

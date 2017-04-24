@@ -58,7 +58,7 @@ public class MreLoadDialog extends JDialog {
 				}
 			}
 		});
-		for (String speciesName : MainData.getSpeciesFile().keySet()) {
+		for (String speciesName : MainData.getSpeciesNames()) {
 			cbSpecies.addItem(speciesName);
 		}
 		// Button

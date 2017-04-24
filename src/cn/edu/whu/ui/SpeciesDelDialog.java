@@ -39,7 +39,7 @@ public class SpeciesDelDialog extends JDialog {
 		final JButton btDel = new JButton("Delete");
 
 		cbSpecies.setPreferredSize(new Dimension(160, 28));
-		for (String speciesName : MainData.getSpeciesFile().keySet()) {
+		for (String speciesName : MainData.getSpeciesNames()) {
 			cbSpecies.addItem(speciesName);
 		}
 
@@ -56,6 +56,11 @@ public class SpeciesDelDialog extends JDialog {
 				// Delete Species and its File
 				if (null != MainData.getSpeciesFile().get(delSpecies)) {
 					MainData.getSpeciesFile().remove(delSpecies);
+				}
+				for(int i = MainData.getSpeciesNames().size() - 1; i>=0; i--) {
+					if(MainData.getSpeciesNames().get(i).equalsIgnoreCase(delSpecies)) {
+						MainData.getSpeciesNames().remove(i);
+					}
 				}
 				CircView.log.error(delSpecies + " is DELETED");
 				SpeciesDelDialog.this.dispose();
