@@ -6,7 +6,7 @@
 > 1.1.3	Download and decompress circRNA data from https://github.com/GeneFeng/CircView/blob/master/testdata/human.tar.gz    
 > 1.1.4	Click “CircRNA”->”Load Data” to load circRNA files according species and tools.  
 > <img src="image/circrna-files-add.png" width="80%">  
-> 1.1.5	Click gene transcript name on left panel to view the image of the circRNAs.  
+> 1.1.5	Click gene transcript name on list panel to view the image of the circRNAs.  
 > <img src="image/whole-circrna.png" width="80%">  
 > 1.1.6	Gene transcript can be searched by name or location.  
 > 1.1.7 Click one "Circle" to view details of each circRNA.  
@@ -53,7 +53,7 @@
 > <img src="image/species-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/species-del.png" width="40%">  
 
 **5.	HOW TO FIND CIRCRNA DATABASES**  
-> CircView provides links to some circRNA databases (Circ2Traits, CircBase, CircInteractome, CircNet, circRNADb, StarBase, TSCD).  
+> CircView provides links to existing circRNA databases, including Circ2Traits, CircBase, CircInteractome, CircNet, circRNADb, StarBase, and TSCD.  
 > <img src="image/dblink.png" width="80%"> 
   
 **6.	HOW TO MANAGE MRE AND RBP DATA**   
