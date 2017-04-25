@@ -51,16 +51,16 @@
 > <img src="image/species-default.png" width="80%">  
 > Users can also add or delete species annotation data with compatible format by using menu “Species”->”Add Species” or “Species”->”Delete Species”.  
 > <img src="image/species-add.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/species-del.png" width="40%">  
+
+**5.	HOW TO FIND CIRCRNA DATABASES**  
+> CircView provides links to some circRNA databases (Circ2Traits, CircBase, CircInteractome, CircNet, circRNADb, StarBase, TSCD).  
+> <img src="image/dblink.png" width="80%"> 
   
-**5.	HOW TO MANAGE MRE AND RBP DATA**   
+**6.	HOW TO MANAGE MRE AND RBP DATA**   
 > CircRNAs mainly function as sponges for the regulatory elements, such as miRNA respond elements (MREs) and RNA binding proteins (RBPs). CircView provides advanced features to display regulatory elements.  
 > This module requires the users to install MySQL locally, see **8 HOW TO INSTALL MYSQL**. Users can load and display the MRE data identified by TargetScan (http://targetscan.org/) and/or the RBP data identified by starBase (http://starbase.sysu.edu.cn/) or any other tool. The format requires five tab delimited columns, including chromosome, start site, end site, MRE/RBP name and description.  
 > Load MRE or RBP file will create table and deposit data into MySQL database, and Clear MRE or RBP will remove data from the database. As the data are persistent, users should not load the same data for more than once.  
-> <img src="image/mre-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mre-clear.png" width="40%">  
-  
-**6.	HOW TO FIND CIRCRNA DATABASES**  
-> CircView provides links to some circRNA databases (CircBase, Circ2Traits, TSCD, CircNet, circRNADb).  
-> <img src="image/dblink.png" width="80%">  
+> <img src="image/mre-load.png" width="40%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mre-clear.png" width="40%">   
   
 **7.	HOW TO INSTALL JAVA VIRTUAL MACHINE**  
 > Java Virtual Machine needs to be installed before running this program. Simply access http://www.java.com, download Java, and install it.  

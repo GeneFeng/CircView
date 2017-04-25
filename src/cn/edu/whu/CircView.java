@@ -246,17 +246,17 @@ public class CircView {
 		JMenu mnCircRna = new JMenu("CircRNA");
 		JMenu mnAnalysis = new JMenu("Analysis");
 		JMenu mnSpecies = new JMenu("Species");
+		JMenu mnDbLink = new JMenu("Database");
 		JMenu mnMre = new JMenu("MRE");
 		JMenu mnRbp = new JMenu("RBP");
-		JMenu mnDbLink = new JMenu("Database Link");
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnFile);
 		menuBar.add(mnCircRna);
 		menuBar.add(mnAnalysis);
 		menuBar.add(mnSpecies);
+		menuBar.add(mnDbLink);
 		menuBar.add(mnMre);
 		menuBar.add(mnRbp);
-		menuBar.add(mnDbLink);
 		menuBar.add(mnHelp);
 		// Add MenuItem to File Menu
 		JMenuItem mntmQuit = new JMenuItem("Quit");
@@ -290,16 +290,20 @@ public class CircView {
 		mnRbp.add(mntmRbpLoad);
 		mnRbp.add(mntmRbpClear);
 		// Add MenuItem to Database Link Menu
-		JMenuItem mntmLink1 = new JMenuItem("CircBase");
-		JMenuItem mntmLink2 = new JMenuItem("Circ2Traits");
-		JMenuItem mntmLink3 = new JMenuItem("TSCD");
+		JMenuItem mntmLink1 = new JMenuItem("Circ2Traits");
+		JMenuItem mntmLink2 = new JMenuItem("CircBase");
+		JMenuItem mntmLink3 = new JMenuItem("CircInteractome");
 		JMenuItem mntmLink4 = new JMenuItem("CircNet");
-		JMenuItem mntmLink5 = new JMenuItem("circRNADb");
+		JMenuItem mntmLink5 = new JMenuItem("CircRNADb");
+		JMenuItem mntmLink6 = new JMenuItem("StarBase");
+		JMenuItem mntmLink7 = new JMenuItem("TSCD");
 		mnDbLink.add(mntmLink1);
 		mnDbLink.add(mntmLink2);
 		mnDbLink.add(mntmLink3);
 		mnDbLink.add(mntmLink4);
 		mnDbLink.add(mntmLink5);
+		mnDbLink.add(mntmLink6);
+		mnDbLink.add(mntmLink7);
 		// Add MenuItem to Help
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mnHelp.add(mntmAbout);
@@ -398,7 +402,7 @@ public class CircView {
 		mntmLink1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					URI uri = new URI("http://circbase.org");
+					URI uri = new URI("http://gyanxet-beta.com/circdb/");
 					Desktop dtp = Desktop.getDesktop();
 					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
 						dtp.browse(uri);
@@ -411,7 +415,7 @@ public class CircView {
 		mntmLink2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					URI uri = new URI("http://gyanxet-beta.com/circdb/");
+					URI uri = new URI("http://circbase.org");
 					Desktop dtp = Desktop.getDesktop();
 					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
 						dtp.browse(uri);
@@ -424,7 +428,7 @@ public class CircView {
 		mntmLink3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					URI uri = new URI("http://gb.whu.edu.cn/TSCD/");
+					URI uri = new URI("https://circinteractome.nia.nih.gov");
 					Desktop dtp = Desktop.getDesktop();
 					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
 						dtp.browse(uri);
@@ -451,6 +455,32 @@ public class CircView {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					URI uri = new URI("http://reprod.njmu.edu.cn/circrnadb");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://starbase.sysu.edu.cn");
+					Desktop dtp = Desktop.getDesktop();
+					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
+						dtp.browse(uri);
+					}
+				} catch (URISyntaxException | IOException e1) {
+					CircView.log.warn(e1.getMessage());
+				}
+			}
+		});
+		mntmLink7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					URI uri = new URI("http://gb.whu.edu.cn/TSCD/");
 					Desktop dtp = Desktop.getDesktop();
 					if (Desktop.isDesktopSupported() && dtp.isSupported(Desktop.Action.BROWSE)) {
 						dtp.browse(uri);
