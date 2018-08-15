@@ -840,7 +840,8 @@ public class CircRnaImagePanel extends JPanel {
 					}
 				}
 				if (null != oneExonRbp) {
-					oneCircRbp.put(actualStart + "-" + actualEnd, oneExonRbp);
+					// oneCircRbp.put(actualStart + "-" + actualEnd, oneExonRbp);
+					oneCircRbp.put(exonStart + "-" + exonEnd, oneExonRbp);
 				}
 			}
 			circRnasRbp.put(circRnaId, oneCircRbp);
@@ -937,7 +938,8 @@ public class CircRnaImagePanel extends JPanel {
 					}
 				}
 				if (null != oneExonMre) {
-					oneCircMre.put(actualStart + "-" + actualEnd, oneExonMre);
+					// oneCircMre.put(actualStart + "-" + actualEnd, oneExonMre);
+					oneCircMre.put(exonStart + "-" + exonEnd, oneExonMre);
 				}
 			}
 			circRnasMre.put(circRnaId, oneCircMre);
